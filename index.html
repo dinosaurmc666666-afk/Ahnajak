@@ -4,47 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="theme-color" content="#6366f1" />
-  <title>AhnajakCode</title>
+  <title>AhnajakCode - Script, Plugins & Digital Products</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 </head>
 <body>
 
   <!-- TOP NAVBAR -->
   <nav class="navbar">
     <div class="nav-container">
-      <!-- Left Side - Hamburger Menu -->
       <button class="hamburger-btn" onclick="toggleSidebar()" title="Menu">
         <i class="fas fa-bars"></i>
       </button>
       
-      <!-- Logo -->
       <a href="#" class="logo" onclick="showPage('home')">
         <i class="fas fa-code"></i> Ahnajak<span>Code</span>
       </a>
       
-      <!-- Right Side - Cart, Theme, Currency, Profile -->
       <div class="nav-right">
-        <!-- Currency Selector -->
         <div class="currency-selector">
           <select id="currencySelect" onchange="changeCurrency()">
             <option value="USD">💵 USD</option>
             <option value="KHR">🇰🇭 KHR</option>
+            <option value="THB">🇹🇭 THB</option>
+            <option value="EUR">🇪🇺 EUR</option>
           </select>
         </div>
         
-        <!-- Theme Toggle -->
         <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
           <i class="fas fa-moon" id="themeIcon"></i>
         </button>
         
-        <!-- Cart -->
         <div class="cart-icon" onclick="showPage('cart')">
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count" id="cartCount">0</span>
         </div>
         
-        <!-- Profile Icon -->
         <div class="profile-icon" onclick="toggleProfileDropdown()">
           <i class="fas fa-user-circle"></i>
         </div>
@@ -52,7 +48,7 @@
     </div>
   </nav>
 
-  <!-- SIDEBAR NAVIGATION (Left) -->
+  <!-- SIDEBAR NAVIGATION -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3><i class="fas fa-code"></i> Menu</h3>
@@ -71,10 +67,9 @@
     </ul>
   </aside>
 
-  <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-  <!-- PROFILE DROPDOWN (Right) -->
+  <!-- PROFILE DROPDOWN -->
   <div class="profile-dropdown" id="profileDropdown">
     <div class="profile-dropdown-header">
       <i class="fas fa-user-circle"></i>
@@ -135,7 +130,6 @@
     <div class="container">
       <h2 class="section-title">🛒 All Products</h2>
       
-      <!-- Search Bar -->
       <div class="search-bar">
         <input type="text" id="searchInput" placeholder="🔍 Search products..." oninput="searchProducts()" />
       </div>
@@ -255,7 +249,6 @@
         </div>
       </div>
       
-      <!-- Change Password Modal -->
       <div class="modal" id="changePasswordModal">
         <div class="modal-content">
           <h3><i class="fas fa-key"></i> Change Password</h3>
@@ -280,7 +273,6 @@
         </div>
       </div>
       
-      <!-- Change Email Modal -->
       <div class="modal" id="changeEmailModal">
         <div class="modal-content">
           <h3><i class="fas fa-envelope"></i> Change Email</h3>
@@ -312,7 +304,6 @@
     <div class="container">
       <h2 class="section-title">🛍️ Your Cart</h2>
       
-      <!-- Coupon Input -->
       <div class="coupon-section">
         <input type="text" id="couponInput" placeholder="Enter coupon code" />
         <button class="btn-small" onclick="applyCoupon()">Apply</button>
@@ -349,7 +340,6 @@
         </button>
       </div>
       
-      <!-- Affiliate Section -->
       <div class="affiliate-section">
         <h3><i class="fas fa-handshake"></i> Affiliate Program</h3>
         <p>ចែករំលែក Link របស់អ្នក ហើយទទួលបាន 10% commission!</p>
@@ -376,107 +366,76 @@
     </div>
   </section>
 
-  <!-- ADMIN PANEL -->
-  <section id="admin" class="page">
-    <div class="container">
-      <div class="admin-header">
-        <h2><i class="fas fa-cog"></i> Admin Panel</h2>
-        <button class="btn-primary" onclick="showAddProductModal()">
-          <i class="fas fa-plus"></i> Add Product
+  <!-- PAYMENT MODAL -->
+  <div class="payment-modal" id="paymentModal">
+    <div class="payment-modal-content">
+      <div class="payment-header">
+        <h2><i class="fas fa-qrcode"></i> Scan to Pay</h2>
+        <button class="close-payment" onclick="closePaymentModal()">
+          <i class="fas fa-times"></i>
         </button>
       </div>
       
-      <div class="admin-stats">
-        <div class="admin-stat-card">
-          <i class="fas fa-box"></i>
-          <h3 id="adminTotalProducts">0</h3>
-          <p>Total Products</p>
+      <div class="payment-body">
+        <div class="qr-container">
+          <canvas id="qrCanvas"></canvas>
         </div>
-        <div class="admin-stat-card">
-          <i class="fas fa-users"></i>
-          <h3 id="adminTotalUsers">0</h3>
-          <p>Total Users</p>
+        
+        <div class="payment-info">
+          <div class="info-row">
+            <span>Order ID:</span>
+            <strong id="paymentOrderId">-</strong>
+          </div>
+          <div class="info-row">
+            <span>Amount (USD):</span>
+            <strong id="paymentAmountUSD">$0.00</strong>
+          </div>
+          <div class="info-row">
+            <span>Amount (KHR):</span>
+            <strong id="paymentAmountKHR">៛0</strong>
+          </div>
         </div>
-        <div class="admin-stat-card">
-          <i class="fas fa-dollar-sign"></i>
-          <h3 id="adminTotalRevenue">$0</h3>
-          <p>Total Revenue</p>
+        
+        <div class="payment-status" id="paymentStatus">
+          <div class="status-pending">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Waiting for payment...</p>
+          </div>
         </div>
-      </div>
-      
-      <h3 class="section-title">📦 Manage Products</h3>
-      <div class="admin-products-table">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Vendor</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="adminProductsList"></tbody>
-        </table>
-      </div>
-      
-      <!-- Add/Edit Product Modal -->
-      <div class="modal" id="productModal">
-        <div class="modal-content">
-          <h3 id="productModalTitle"><i class="fas fa-plus"></i> Add Product</h3>
-          <form id="productForm">
-            <input type="hidden" id="productId" />
-            <div class="input-group">
-              <label>Product Title</label>
-              <input type="text" id="productTitle" required />
-            </div>
-            <div class="input-group">
-              <label>Category</label>
-              <select id="productCategory" required>
-                <option value="script">Script</option>
-                <option value="plugin">Plugin</option>
-                <option value="template">Template</option>
-                <option value="ui">UI Kit</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label>Price (USD)</label>
-              <input type="number" id="productPrice" required min="0" step="0.01" />
-            </div>
-            <div class="input-group">
-              <label>Vendor</label>
-              <input type="text" id="productVendor" required />
-            </div>
-            <div class="input-group">
-              <label>Description</label>
-              <textarea id="productDesc" required></textarea>
-            </div>
-            <div class="input-group">
-              <label>Icon (FontAwesome class)</label>
-              <input type="text" id="productIcon" placeholder="fa-code" value="fa-code" />
-            </div>
-            <div class="modal-actions">
-              <button type="button" class="btn-secondary" onclick="closeModal('productModal')">Cancel</button>
-              <button type="submit" class="btn-primary">Save Product</button>
-            </div>
-          </form>
+        
+        <div class="payment-timer">
+          <i class="fas fa-clock"></i>
+          <span>Expires in: <strong id="paymentTimer">10:00</strong></span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="success-modal" id="successModal">
+    <div class="success-content">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p>អរគុណសម្រាប់ការទិញ។ ផលិតផលរបស់អ្នកអាចទាញយកបានឥឡូវនេះ។</p>
+      <div class="success-details" id="successDetails"></div>
+      <button class="btn-primary" onclick="closeSuccessModal()">
+        <i class="fas fa-download"></i> Download Now
+      </button>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>&copy; 2026 AhnajakCode. All rights reserved. Made with ❤️ in Cambodia</p>
-      <p><a href="https://ahnajak.vercel.app/admin.html" target="_blank">Admin Panel</a></p>
+      <p><a href="admin/index.html">Admin Panel</a></p>
     </div>
   </footer>
 
-  <!-- Toast Notification -->
   <div id="toast" class="toast"></div>
 
   <script src="script.js"></script>
 </body>
-  </html>
+              </html>
