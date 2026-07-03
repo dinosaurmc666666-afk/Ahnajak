@@ -1,7 +1,7 @@
 // ============================================
 // CONFIGURATION
 // ============================================
-const PAYMENT_API_URL = 'https://backend-11zq.onrender.com'; // ប្តូរទៅ URL របស់អ្នក
+const PAYMENT_API_URL = 'https://backend-11zq.onrender.com';
 
 // ============================================
 // DATA
@@ -35,7 +35,9 @@ let appliedCoupon = null;
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('currencySelect').value = currentCurrency;
+  const currencySelect = document.getElementById('currencySelect');
+  if (currencySelect) currencySelect.value = currentCurrency;
+  
   document.documentElement.setAttribute('data-theme', currentTheme);
   updateThemeIcon();
   
@@ -62,7 +64,9 @@ function toggleTheme() {
 
 function updateThemeIcon() {
   const icon = document.getElementById('themeIcon');
-  icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+  if (icon) {
+    icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+  }
 }
 
 // ============================================
@@ -106,7 +110,7 @@ document.addEventListener('click', (e) => {
   const dropdown = document.getElementById('profileDropdown');
   const profileIcon = document.querySelector('.profile-icon');
   
-  if (!dropdown.contains(e.target) && !profileIcon.contains(e.target)) {
+  if (dropdown && profileIcon && !dropdown.contains(e.target) && !profileIcon.contains(e.target)) {
     dropdown.classList.remove('active');
   }
 });
@@ -119,9 +123,13 @@ function showPage(pageId) {
   document.getElementById(pageId).classList.add('active');
   window.scrollTo(0, 0);
   
-  document.getElementById('sidebar').classList.remove('active');
-  document.getElementById('sidebarOverlay').classList.remove('active');
-  document.getElementById('profileDropdown').classList.remove('active');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const dropdown = document.getElementById('profileDropdown');
+  
+  if (sidebar) sidebar.classList.remove('active');
+  if (overlay) overlay.classList.remove('active');
+  if (dropdown) dropdown.classList.remove('active');
 
   if (pageId === 'cart') renderCart();
   if (pageId === 'dashboard') renderDashboard();
@@ -204,24 +212,32 @@ function updateAuthUI() {
   const profileAuth = document.getElementById('profileAuth');
   
   if (currentUser) {
-    profileName.textContent = currentUser.name;
-    profileEmail.textContent = currentUser.email;
+    if (profileName) profileName.textContent = currentUser.name;
+    if (profileEmail) profileEmail.textContent = currentUser.email;
     
-    sidebarAuth.innerHTML = `
-      <a href="#" onclick="showPage('profile'); toggleSidebar();"><i class="fas fa-user"></i> My Profile</a>
-      <a href="#" onclick="showPage('dashboard'); toggleSidebar();"><i class="fas fa-box"></i> My Purchases</a>
-      <a href="#" onclick="logout(); toggleSidebar();"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    `;
-    profileAuth.innerHTML = `
-      <a href="#" onclick="showPage('profile'); toggleProfileDropdown();"><i class="fas fa-user"></i> My Profile</a>
-      <a href="#" onclick="showPage('dashboard'); toggleProfileDropdown();"><i class="fas fa-box"></i> My Purchases</a>
-      <a href="#" onclick="logout(); toggleProfileDropdown();"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    `;
+    if (sidebarAuth) {
+      sidebarAuth.innerHTML = `
+        <a href="#" onclick="showPage('profile'); toggleSidebar();"><i class="fas fa-user"></i> My Profile</a>
+        <a href="#" onclick="showPage('dashboard'); toggleSidebar();"><i class="fas fa-box"></i> My Purchases</a>
+        <a href="#" onclick="logout(); toggleSidebar();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      `;
+    }
+    if (profileAuth) {
+      profileAuth.innerHTML = `
+        <a href="#" onclick="showPage('profile'); toggleProfileDropdown();"><i class="fas fa-user"></i> My Profile</a>
+        <a href="#" onclick="showPage('dashboard'); toggleProfileDropdown();"><i class="fas fa-box"></i> My Purchases</a>
+        <a href="#" onclick="logout(); toggleProfileDropdown();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      `;
+    }
   } else {
-    profileName.textContent = 'Guest';
-    profileEmail.textContent = 'Please login';
-    sidebarAuth.innerHTML = `<a href="#" onclick="showPage('login'); toggleSidebar();"><i class="fas fa-sign-in-alt"></i> Login</a>`;
-    profileAuth.innerHTML = `<a href="#" onclick="showPage('login'); toggleProfileDropdown();"><i class="fas fa-sign-in-alt"></i> Login / Register</a>`;
+    if (profileName) profileName.textContent = 'Guest';
+    if (profileEmail) profileEmail.textContent = 'Please login';
+    if (sidebarAuth) {
+      sidebarAuth.innerHTML = `<a href="#" onclick="showPage('login'); toggleSidebar();"><i class="fas fa-sign-in-alt"></i> Login</a>`;
+    }
+    if (profileAuth) {
+      profileAuth.innerHTML = `<a href="#" onclick="showPage('login'); toggleProfileDropdown();"><i class="fas fa-sign-in-alt"></i> Login / Register</a>`;
+    }
   }
 }
 
@@ -340,6 +356,8 @@ document.getElementById('changeEmailForm').addEventListener('submit', (e) => {
 // ============================================
 function renderProducts(containerId, products) {
   const container = document.getElementById(containerId);
+  if (!container) return;
+  
   if (!products.length) {
     container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">No products found</p>';
     return;
@@ -418,12 +436,15 @@ function removeFromCart(productId) {
 }
 
 function updateCartCount() {
-  document.getElementById('cartCount').textContent = cart.length;
+  const el = document.getElementById('cartCount');
+  if (el) el.textContent = cart.length;
 }
 
 function renderCart() {
   const container = document.getElementById('cartItems');
   const summary = document.getElementById('cartSummary');
+
+  if (!container || !summary) return;
 
   if (!cart.length) {
     container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px;">🛒 Cart របស់អ្នកទទេ</p>';
@@ -490,7 +511,7 @@ function applyCoupon() {
 }
 
 // ============================================
-// CHECKOUT & PAYMENT
+// CHECKOUT & PAYMENT (✅ FIXED)
 // ============================================
 function checkout() {
   if (!currentUser) {
@@ -518,6 +539,7 @@ function checkout() {
   createOrderWithBakong(total);
 }
 
+// ✅ FIXED: បន្ថែម user_email ទៅ request body
 async function createOrderWithBakong(totalAmount) {
   try {
     showToast('⏳ កំពុងបង្កើត Order...');
@@ -530,7 +552,8 @@ async function createOrderWithBakong(totalAmount) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        player_name: currentUser.email,
+        player_name: currentUser.name,        // ✅ ប្រើ name
+        user_email: currentUser.email,         // ✅ បន្ថែម user_email
         item_type: 'product',
         item_id: firstProduct.id
       })
@@ -573,14 +596,16 @@ function closePaymentModal() {
 
 function generateQRCode(qrString) {
   const canvas = document.getElementById('qrCanvas');
-  QRCode.toCanvas(canvas, qrString, {
-    width: 200,
-    margin: 2,
-    color: {
-      dark: '#000000',
-      light: '#ffffff'
-    }
-  });
+  if (typeof QRCode !== 'undefined' && canvas) {
+    QRCode.toCanvas(canvas, qrString, {
+      width: 200,
+      margin: 2,
+      color: {
+        dark: '#000000',
+        light: '#ffffff'
+      }
+    });
+  }
 }
 
 let paymentCheckInterval = null;
@@ -682,6 +707,7 @@ function savePurchasesToUser() {
 function showSuccessModal(orderId) {
   document.getElementById('successModal').classList.add('active');
   
+  const purchasesCount = (currentUser.purchases || []).length;
   document.getElementById('successDetails').innerHTML = `
     <div class="info-row">
       <span>Order ID:</span>
@@ -689,7 +715,7 @@ function showSuccessModal(orderId) {
     </div>
     <div class="info-row">
       <span>Items:</span>
-      <strong>${currentUser.purchases.length} products</strong>
+      <strong>${purchasesCount} products</strong>
     </div>
   `;
 }
@@ -768,7 +794,9 @@ function downloadProduct(title) {
 // ============================================
 function showToast(message, type = 'success') {
   const toast = document.getElementById('toast');
+  if (!toast) return;
+  
   toast.textContent = message;
   toast.className = 'toast show' + (type === 'error' ? ' error' : '');
   setTimeout(() => toast.classList.remove('show'), 3000);
-      }
+    }
