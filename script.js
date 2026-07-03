@@ -1,5 +1,5 @@
 // ============ DATA ============
-const PRODUCTS = [
+let PRODUCTS = JSON.parse(localStorage.getItem('products')) || [
   { id: 1, title: "E-commerce Script", category: "script", price: 49, icon: "fa-shopping-cart", desc: "Script ពេញលេញសម្រាប់ហាងអនឡាញ", vendor: "DevMaster" },
   { id: 2, title: "WordPress SEO Plugin", category: "plugin", price: 29, icon: "fa-plug", desc: "Plugin សម្រាប់បង្កើន SEO របស់អ្នក", vendor: "PluginPro" },
   { id: 3, title: "Portfolio Template", category: "template", price: 19, icon: "fa-briefcase", desc: "Template ស្អាតសម្រាប់ Portfolio", vendor: "TemplateHub" },
@@ -32,18 +32,23 @@ let appliedCoupon = null;
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
-  // Set initial currency
   document.getElementById('currencySelect').value = currentCurrency;
-  
-  // Set initial theme
   document.documentElement.setAttribute('data-theme', currentTheme);
   updateThemeIcon();
   
-  // Check for affiliate ref
   const urlParams = new URLSearchParams(window.location.search);
   const ref = urlParams.get('ref');
   if (ref) {
     trackAffiliateClick(ref);
+  }
+  
+  // Check if admin
+  if (currentUser && currentUser.role === 'admin') {
+    document.getElementById('sidebarAuth').innerHTML = `
+      <a href="#" onclick="showPage('admin'); toggleSidebar();"><i class="fas fa-cog"></i> Admin Panel</a>
+      <a href="#" onclick="showPage('profile'); toggleSidebar();"><i class="fas fa-user"></i> My Profile</a>
+      <a href="#" onclick="logout(); toggleSidebar();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    `;
   }
   
   renderFeatured();
@@ -84,19 +89,24 @@ function formatPrice(priceUSD) {
   return symbol + converted.toFixed(2);
 }
 
-// ============ MOBILE MENU ============
-function toggleMobileMenu() {
-  document.getElementById('navLinks').classList.toggle('active');
+// ============ SIDEBAR ============
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
 }
 
-// Close menu when clicking outside
+// ============ PROFILE DROPDOWN ============
+function toggleProfileDropdown() {
+  document.getElementById('profileDropdown').classList.toggle('active');
+}
+
+// Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-  const nav = document.querySelector('.navbar');
-  const menu = document.getElementById('navLinks');
-  const toggle = document.querySelector('.mobile-menu-toggle');
+  const dropdown = document.getElementById('profileDropdown');
+  const profileIcon = document.querySelector('.profile-icon');
   
-  if (!nav.contains(e.target) && menu.classList.contains('active')) {
-    menu.classList.remove('active');
+  if (!dropdown.contains(e.target) && !profileIcon.contains(e.target)) {
+    dropdown.classList.remove('active');
   }
 });
 
@@ -106,12 +116,15 @@ function showPage(pageId) {
   document.getElementById(pageId).classList.add('active');
   window.scrollTo(0, 0);
   
-  // Close mobile menu
-  document.getElementById('navLinks').classList.remove('active');
+  document.getElementById('sidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+  document.getElementById('profileDropdown').classList.remove('active');
 
   if (pageId === 'cart') renderCart();
   if (pageId === 'dashboard') renderDashboard();
   if (pageId === 'products') renderAllProducts('all');
+  if (pageId === 'profile') renderProfile();
+  if (pageId === 'admin') renderAdmin();
 }
 
 // ============ AUTH ============
@@ -119,6 +132,7 @@ document.getElementById('registerForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const name = document.getElementById('regName').value.trim();
   const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const phone = document.getElementById('regPhone').value.trim();
   const password = document.getElementById('regPassword').value;
 
   const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -128,13 +142,16 @@ document.getElementById('registerForm').addEventListener('submit', (e) => {
   }
 
   const newUser = { 
+    id: Date.now(),
     name, 
     email, 
+    phone,
     password, 
     purchases: [],
     affiliateCode: generateAffiliateCode(),
     affiliateClicks: 0,
-    affiliateEarnings: 0
+    affiliateEarnings: 0,
+    role: 'user'
   };
   users.push(newUser);
   localStorage.setItem('users', JSON.stringify(users));
@@ -164,7 +181,12 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
   localStorage.setItem('current_user', JSON.stringify(user));
   updateAuthUI();
   showToast('✅ Login ជោគជ័យ! សូមស្វាគមន៍ ' + user.name);
-  showPage('dashboard');
+  
+  if (user.role === 'admin') {
+    showPage('admin');
+  } else {
+    showPage('dashboard');
+  }
   e.target.reset();
 });
 
@@ -177,16 +199,153 @@ function logout() {
 }
 
 function updateAuthUI() {
-  const authNav = document.getElementById('authNav');
+  const sidebarAuth = document.getElementById('sidebarAuth');
+  const profileName = document.getElementById('profileName');
+  const profileEmail = document.getElementById('profileEmail');
+  const profileAuth = document.getElementById('profileAuth');
+  
   if (currentUser) {
-    authNav.innerHTML = `
-      <a href="#" onclick="showPage('dashboard')" class="btn-login">
-        <i class="fas fa-user"></i> ${currentUser.name.split(' ')[0]}
-      </a>`;
+    profileName.textContent = currentUser.name;
+    profileEmail.textContent = currentUser.email;
+    
+    if (currentUser.role === 'admin') {
+      sidebarAuth.innerHTML = `
+        <a href="#" onclick="showPage('admin'); toggleSidebar();"><i class="fas fa-cog"></i> Admin Panel</a>
+        <a href="#" onclick="showPage('profile'); toggleSidebar();"><i class="fas fa-user"></i> My Profile</a>
+        <a href="#" onclick="logout(); toggleSidebar();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      `;
+      profileAuth.innerHTML = `
+        <a href="#" onclick="showPage('admin'); toggleProfileDropdown();"><i class="fas fa-cog"></i> Admin Panel</a>
+        <a href="#" onclick="showPage('profile'); toggleProfileDropdown();"><i class="fas fa-user"></i> My Profile</a>
+        <a href="#" onclick="logout(); toggleProfileDropdown();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      `;
+    } else {
+      sidebarAuth.innerHTML = `
+        <a href="#" onclick="showPage('profile'); toggleSidebar();"><i class="fas fa-user"></i> My Profile</a>
+        <a href="#" onclick="showPage('dashboard'); toggleSidebar();"><i class="fas fa-box"></i> My Purchases</a>
+        <a href="#" onclick="logout(); toggleSidebar();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      `;
+      profileAuth.innerHTML = `
+        <a href="#" onclick="showPage('profile'); toggleProfileDropdown();"><i class="fas fa-user"></i> My Profile</a>
+        <a href="#" onclick="showPage('dashboard'); toggleProfileDropdown();"><i class="fas fa-box"></i> My Purchases</a>
+        <a href="#" onclick="logout(); toggleProfileDropdown();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      `;
+    }
   } else {
-    authNav.innerHTML = `<a href="#" onclick="showPage('login')" class="btn-login">Login</a>`;
+    profileName.textContent = 'Guest';
+    profileEmail.textContent = 'Please login';
+    sidebarAuth.innerHTML = `<a href="#" onclick="showPage('login'); toggleSidebar();"><i class="fas fa-sign-in-alt"></i> Login</a>`;
+    profileAuth.innerHTML = `<a href="#" onclick="showPage('login'); toggleProfileDropdown();"><i class="fas fa-sign-in-alt"></i> Login / Register</a>`;
   }
 }
+
+// ============ PROFILE ============
+function renderProfile() {
+  if (!currentUser) {
+    showPage('login');
+    return;
+  }
+  
+  document.getElementById('profileNameInput').value = currentUser.name;
+  document.getElementById('profileEmailInput').value = currentUser.email;
+  document.getElementById('profilePhoneInput').value = currentUser.phone || '';
+}
+
+document.getElementById('profileForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const name = document.getElementById('profileNameInput').value.trim();
+  const email = document.getElementById('profileEmailInput').value.trim().toLowerCase();
+  const phone = document.getElementById('profilePhoneInput').value.trim();
+  
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userIndex = users.findIndex(u => u.email === currentUser.email);
+  
+  if (userIndex === -1) return;
+  
+  users[userIndex].name = name;
+  users[userIndex].email = email;
+  users[userIndex].phone = phone;
+  
+  localStorage.setItem('users', JSON.stringify(users));
+  currentUser = users[userIndex];
+  localStorage.setItem('current_user', JSON.stringify(currentUser));
+  
+  updateAuthUI();
+  showToast('✅ Profile updated successfully!');
+});
+
+function showChangePassword() {
+  document.getElementById('changePasswordModal').classList.add('active');
+}
+
+function showChangeEmail() {
+  document.getElementById('currentEmail').value = currentUser.email;
+  document.getElementById('changeEmailModal').classList.add('active');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('active');
+}
+
+document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const currentPass = document.getElementById('currentPassword').value;
+  const newPass = document.getElementById('newPassword').value;
+  const confirmPass = document.getElementById('confirmPassword').value;
+  
+  if (currentPass !== currentUser.password) {
+    showToast('❌ Current password is incorrect!', 'error');
+    return;
+  }
+  
+  if (newPass !== confirmPass) {
+    showToast('❌ New passwords do not match!', 'error');
+    return;
+  }
+  
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userIndex = users.findIndex(u => u.email === currentUser.email);
+  
+  users[userIndex].password = newPass;
+  localStorage.setItem('users', JSON.stringify(users));
+  currentUser = users[userIndex];
+  localStorage.setItem('current_user', JSON.stringify(currentUser));
+  
+  closeModal('changePasswordModal');
+  showToast('✅ Password changed successfully!');
+  e.target.reset();
+});
+
+document.getElementById('changeEmailForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const newEmail = document.getElementById('newEmail').value.trim().toLowerCase();
+  const password = document.getElementById('emailPassword').value;
+  
+  if (password !== currentUser.password) {
+    showToast('❌ Password is incorrect!', 'error');
+    return;
+  }
+  
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  if (users.find(u => u.email === newEmail)) {
+    showToast('❌ Email already exists!', 'error');
+    return;
+  }
+  
+  const userIndex = users.findIndex(u => u.email === currentUser.email);
+  users[userIndex].email = newEmail;
+  localStorage.setItem('users', JSON.stringify(users));
+  currentUser = users[userIndex];
+  localStorage.setItem('current_user', JSON.stringify(currentUser));
+  
+  updateAuthUI();
+  closeModal('changeEmailModal');
+  showToast('✅ Email changed successfully!');
+  e.target.reset();
+});
 
 // ============ PRODUCTS ============
 function renderProducts(containerId, products) {
@@ -223,7 +382,6 @@ function renderAllProducts(category) {
   renderProducts('allProducts', filtered);
 }
 
-// Filter buttons
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -232,7 +390,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-// Search
 function searchProducts() {
   const query = document.getElementById('searchInput').value.toLowerCase();
   const filtered = PRODUCTS.filter(p => 
@@ -358,7 +515,6 @@ function checkout() {
   
   const total = subtotal - discount;
 
-  // Save purchases
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const userIndex = users.findIndex(u => u.email === currentUser.email);
   if (!users[userIndex].purchases) users[userIndex].purchases = [];
@@ -367,13 +523,12 @@ function checkout() {
   currentUser = users[userIndex];
   localStorage.setItem('current_user', JSON.stringify(currentUser));
 
-  // Track affiliate earnings (if purchased via affiliate link)
   const urlParams = new URLSearchParams(window.location.search);
   const ref = urlParams.get('ref');
   if (ref) {
     const affiliateUser = users.find(u => u.affiliateCode === ref);
     if (affiliateUser) {
-      affiliateUser.affiliateEarnings += total * 0.10; // 10% commission
+      affiliateUser.affiliateEarnings += total * 0.10;
       localStorage.setItem('users', JSON.stringify(users));
     }
   }
@@ -415,7 +570,6 @@ function renderDashboard() {
   }
   document.getElementById('userName').textContent = currentUser.name;
   
-  // Affiliate section
   const affiliateLink = `${window.location.origin}?ref=${currentUser.affiliateCode}`;
   document.getElementById('affiliateLink').value = affiliateLink;
   document.getElementById('affiliateClicks').textContent = currentUser.affiliateClicks || 0;
@@ -447,6 +601,116 @@ function downloadProduct(title) {
   showToast(`⬇️ កំពុងទាញយក: ${title}`);
 }
 
+// ============ ADMIN PANEL ============
+function renderAdmin() {
+  if (!currentUser || currentUser.role !== 'admin') {
+    showToast('⚠️ Access denied! Admin only.', 'error');
+    showPage('home');
+    return;
+  }
+  
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const totalRevenue = users.reduce((sum, u) => {
+    const purchases = u.purchases || [];
+    return sum + purchases.reduce((s, p) => s + p.price, 0);
+  }, 0);
+  
+  document.getElementById('adminTotalProducts').textContent = PRODUCTS.length;
+  document.getElementById('adminTotalUsers').textContent = users.length;
+  document.getElementById('adminTotalRevenue').textContent = formatPrice(totalRevenue);
+  
+  renderAdminProducts();
+}
+
+function renderAdminProducts() {
+  const tbody = document.getElementById('adminProductsList');
+  tbody.innerHTML = PRODUCTS.map(p => `
+    <tr>
+      <td>${p.id}</td>
+      <td>${p.title}</td>
+      <td><span class="product-category">${p.category}</span></td>
+      <td>${formatPrice(p.price)}</td>
+      <td>${p.vendor}</td>
+      <td>
+        <div class="action-btns">
+          <button class="btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i> Edit</button>
+          <button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function showAddProductModal() {
+  document.getElementById('productModalTitle').innerHTML = '<i class="fas fa-plus"></i> Add Product';
+  document.getElementById('productForm').reset();
+  document.getElementById('productId').value = '';
+  document.getElementById('productModal').classList.add('active');
+}
+
+function editProduct(id) {
+  const product = PRODUCTS.find(p => p.id === id);
+  if (!product) return;
+  
+  document.getElementById('productModalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
+  document.getElementById('productId').value = product.id;
+  document.getElementById('productTitle').value = product.title;
+  document.getElementById('productCategory').value = product.category;
+  document.getElementById('productPrice').value = product.price;
+  document.getElementById('productVendor').value = product.vendor;
+  document.getElementById('productDesc').value = product.desc;
+  document.getElementById('productIcon').value = product.icon;
+  
+  document.getElementById('productModal').classList.add('active');
+}
+
+function deleteProduct(id) {
+  if (!confirm('Are you sure you want to delete this product?')) return;
+  
+  PRODUCTS = PRODUCTS.filter(p => p.id !== id);
+  localStorage.setItem('products', JSON.stringify(PRODUCTS));
+  renderAdminProducts();
+  renderFeatured();
+  renderAllProducts('all');
+  showToast('✅ Product deleted successfully!');
+}
+
+document.getElementById('productForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const id = document.getElementById('productId').value;
+  const productData = {
+    title: document.getElementById('productTitle').value.trim(),
+    category: document.getElementById('productCategory').value,
+    price: parseFloat(document.getElementById('productPrice').value),
+    vendor: document.getElementById('productVendor').value.trim(),
+    desc: document.getElementById('productDesc').value.trim(),
+    icon: document.getElementById('productIcon').value.trim() || 'fa-code'
+  };
+  
+  if (id) {
+    // Edit existing
+    const index = PRODUCTS.findIndex(p => p.id === parseInt(id));
+    if (index !== -1) {
+      PRODUCTS[index] = { ...PRODUCTS[index], ...productData };
+    }
+  } else {
+    // Add new
+    const newProduct = {
+      id: Date.now(),
+      ...productData
+    };
+    PRODUCTS.push(newProduct);
+  }
+  
+  localStorage.setItem('products', JSON.stringify(PRODUCTS));
+  closeModal('productModal');
+  renderAdminProducts();
+  renderFeatured();
+  renderAllProducts('all');
+  showToast(id ? '✅ Product updated successfully!' : '✅ Product added successfully!');
+});
+
 // ============ TOAST ============
 function showToast(message, type = 'success') {
   const toast = document.getElementById('toast');
@@ -454,3 +718,23 @@ function showToast(message, type = 'success') {
   toast.className = 'toast show' + (type === 'error' ? ' error' : '');
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
+// Create admin account (run once in console)
+function createAdminAccount() {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const admin = {
+    id: 1,
+    name: 'Admin',
+    email: 'admin@ahnajakcode.com',
+    phone: '+855 12 345 678',
+    password: 'admin123',
+    purchases: [],
+    affiliateCode: 'ADMIN001',
+    affiliateClicks: 0,
+    affiliateEarnings: 0,
+    role: 'admin'
+  };
+  users.push(admin);
+  localStorage.setItem('users', JSON.stringify(users));
+  console.log('Admin account created! Email: admin@ahnajakcode.com, Password: admin123');
+                                    }
