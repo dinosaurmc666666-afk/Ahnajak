@@ -1,11 +1,12 @@
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
-    // បង្ើត Products លំនាំដើម បើមិនទាន់មាន
+    // Initialize default products if empty
     if (!localStorage.getItem('products')) {
         const defaultProducts = [
             { id: 1, title: "E-commerce Script", category: "script", price: 49, icon: "fa-shopping-cart", desc: "Script ពេញលេញសម្រាប់ហាងអនឡាញ", vendor: "DevMaster" },
-            { id: 2, title: "WordPress SEO Plugin", category: "plugin", price: 29, icon: "fa-plug", desc: "Plugin សម្រាប់បង្កើន SEO", vendor: "PluginPro" },
-            { id: 3, title: "Portfolio Template", category: "template", price: 19, icon: "fa-briefcase", desc: "Template ស្អាតសម្រាប់ Portfolio", vendor: "TemplateHub" }
+            { id: 2, title: "WordPress SEO Plugin", category: "plugin", price: 29, icon: "fa-plug", desc: "Plugin សម្រាប់បង្កើន SEO របស់អ្នក", vendor: "PluginPro" },
+            { id: 3, title: "Portfolio Template", category: "template", price: 19, icon: "fa-briefcase", desc: "Template ស្អាតសម្រាប់ Portfolio", vendor: "TemplateHub" },
+            { id: 4, title: "Admin Dashboard UI", category: "ui", price: 39, icon: "fa-chart-line", desc: "UI Kit សម្រាប់ Admin Dashboard", vendor: "UIDesign" }
         ];
         localStorage.setItem('products', JSON.stringify(defaultProducts));
     }
@@ -27,21 +28,25 @@ document.getElementById('addProductForm').addEventListener('submit', (e) => {
         icon: document.getElementById('p-icon').value.trim() || 'fa-code'
     };
     
+    // Get existing products
     const products = JSON.parse(localStorage.getItem('products')) || [];
     products.push(newProduct);
     
-    // Save to localStorage (User site will see this immediately!)
+    // Save to localStorage (User will see this immediately!)
     localStorage.setItem('products', JSON.stringify(products));
     
     // Reset form
     document.getElementById('addProductForm').reset();
     document.getElementById('p-icon').value = 'fa-code';
     
+    // Update table
     renderProductsTable();
+    
+    // Show success
     showToast(`✅ "${newProduct.title}" added successfully!`);
 });
 
-// ============ RENDER TABLE ============
+// ============ RENDER PRODUCTS TABLE ============
 function renderProductsTable(products = null) {
     const allProducts = products || JSON.parse(localStorage.getItem('products')) || [];
     const tbody = document.getElementById('productsTableBody');
@@ -116,6 +121,7 @@ document.getElementById('editProductForm').addEventListener('submit', (e) => {
     
     if (index === -1) return;
     
+    // Update product
     products[index] = {
         id: id,
         title: document.getElementById('edit-title').value.trim(),
@@ -126,8 +132,10 @@ document.getElementById('editProductForm').addEventListener('submit', (e) => {
         icon: document.getElementById('edit-icon').value.trim()
     };
     
+    // Save
     localStorage.setItem('products', JSON.stringify(products));
     
+    // Close modal and refresh
     closeEditModal();
     renderProductsTable();
     
