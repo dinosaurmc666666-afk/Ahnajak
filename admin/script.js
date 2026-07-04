@@ -1,62 +1,37 @@
 // ============================================
-// ZOOM PREVENTION - រារាំង Zoom ជាដាច់ខាត់
+// ZOOM PREVENTION
 // ============================================
 (function() {
-  // រារាំង pinch zoom (touch events)
   document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) {
-      e.preventDefault();
-    }
+    if (e.touches.length > 1) e.preventDefault();
   }, { passive: false });
   
-  // រារាំង double-tap zoom
   let lastTouchEnd = 0;
   document.addEventListener('touchend', function(e) {
     const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-      e.preventDefault();
-    }
+    if (now - lastTouchEnd <= 300) e.preventDefault();
     lastTouchEnd = now;
   }, { passive: false });
   
-  // រារាំង Ctrl/Cmd + wheel zoom
   document.addEventListener('wheel', function(e) {
-    if (e.ctrlKey || e.metaKey) {
-      e.preventDefault();
-    }
+    if (e.ctrlKey || e.metaKey) e.preventDefault();
   }, { passive: false });
   
-  // រារាំង keyboard zoom (Ctrl +/-)
   document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
       e.preventDefault();
     }
   });
   
-  // រារាំង gesture events (iOS Safari)
-  document.addEventListener('gesturestart', function(e) {
-    e.preventDefault();
-  });
-  
-  document.addEventListener('gesturechange', function(e) {
-    e.preventDefault();
-  });
-  
-  document.addEventListener('gestureend', function(e) {
-    e.preventDefault();
-  });
+  document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+  document.addEventListener('gesturechange', function(e) { e.preventDefault(); });
+  document.addEventListener('gestureend', function(e) { e.preventDefault(); });
 })();
 
 // ============================================
 // DATA
 // ============================================
-let PRODUCTS = JSON.parse(localStorage.getItem('products')) || [
-  { id: 1, title: "E-commerce Script", category: "script", price: 49, desc: "Script ពេញលេញសម្រាប់ហាងអនឡាញ", vendor: "DevMaster", downloads: 12, image: "" },
-  { id: 2, title: "WordPress SEO Plugin", category: "plugin", price: 29, desc: "Plugin សម្ាប់បង្កើន SEO", vendor: "PluginPro", downloads: 8, image: "" },
-  { id: 3, title: "Portfolio Template", category: "template", price: 19, desc: "Template ស្អាតសម្រាប់ Portfolio", vendor: "TemplateHub", downloads: 15, image: "" },
-  { id: 4, title: "Admin Dashboard UI", category: "ui", price: 39, desc: "UI Kit សម្ាប់ Admin Dashboard", vendor: "UIDesign", downloads: 6, image: "" }
-];
-
+let PRODUCTS = JSON.parse(localStorage.getItem('products')) || [];
 let ORDERS = JSON.parse(localStorage.getItem('admin_orders')) || [];
 let USERS = JSON.parse(localStorage.getItem('users')) || [];
 
@@ -65,26 +40,63 @@ let newOrdersCount = 0;
 let lastOrderCheck = Date.now();
 
 // ============================================
-// INIT
+// INIT - ដំណើរការពេល page load
 // ============================================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Admin Panel Initialized');
+  
   loadData();
   renderHome();
   renderProductsTable();
   renderOrdersTable();
   renderUsersTable();
   
-  // តាមដានការផ្លាស់បតូរ localStorage (Real-time orders)
+  // តាមដាន localStorage changes
   window.addEventListener('storage', handleStorageChange);
   
-  // ពិនិត្យ orders ថមីរៀងរាល់ 3 វិនាទី
+  // ពិនិត្យ orders ថ្មីរៀងរាល់ 3 វិនាទី
   setInterval(checkNewOrders, 3000);
+  
+  // ដាក់ event listeners ឱ្យ buttons
+  setupEventListeners();
 });
 
+function setupEventListeners() {
+  // Modal close buttons
+  const closeBtns = document.querySelectorAll('.close-btn');
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const modal = this.closest('.modal');
+      if (modal) modal.classList.remove('active');
+    });
+  });
+  
+  // Close modal when clicking outside
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+  });
+  
+  // Form submit
+  const productForm = document.getElementById('productForm');
+  if (productForm) {
+    productForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      saveProduct(e);
+    });
+  }
+  
+  console.log('Event listeners setup complete');
+}
+
 function loadData() {
-  PRODUCTS = JSON.parse(localStorage.getItem('products')) || PRODUCTS;
+  PRODUCTS = JSON.parse(localStorage.getItem('products')) || [];
   ORDERS = JSON.parse(localStorage.getItem('admin_orders')) || [];
   USERS = JSON.parse(localStorage.getItem('users')) || [];
+  console.log('Data loaded:', { products: PRODUCTS.length, orders: ORDERS.length, users: USERS.length });
 }
 
 // ============================================
@@ -96,7 +108,6 @@ function handleStorageChange(e) {
     const oldOrders = JSON.parse(e.oldValue) || [];
     
     if (newOrders.length > oldOrders.length) {
-      // មាន order ថ្មី!
       const newOrder = newOrders[newOrders.length - 1];
       showOrderNotification(newOrder);
       playNotificationSound();
@@ -108,7 +119,7 @@ function handleStorageChange(e) {
   }
   
   if (e.key === 'products') {
-    PRODUCTS = JSON.parse(e.newValue) || PRODUCTS;
+    PRODUCTS = JSON.parse(e.newValue) || [];
     renderProductsTable();
     renderHome();
   }
@@ -124,7 +135,6 @@ function checkNewOrders() {
   const currentOrders = JSON.parse(localStorage.getItem('admin_orders')) || [];
   const currentTime = Date.now();
   
-  // ពិនិត្ order ថ្មីក្នុងរយៈពេល 10 វិនាទីចុងក្រោយ
   const recentOrders = currentOrders.filter(o => {
     const orderTime = new Date(o.date).getTime();
     return orderTime > lastOrderCheck && orderTime > (currentTime - 10000);
@@ -143,7 +153,6 @@ function checkNewOrders() {
 function showOrderNotification(order) {
   newOrdersCount++;
   
-  // បង្ហាញ notification dot នៅ menu
   const notifDot = document.getElementById('orderNotification');
   const notifBadge = document.getElementById('notifBadge');
   const notifCount = document.getElementById('notifCount');
@@ -154,7 +163,6 @@ function showOrderNotification(order) {
     notifCount.textContent = newOrdersCount;
   }
   
-  // បង្ាញ popup notification
   const popup = document.getElementById('orderNotificationPopup');
   const orderText = document.getElementById('newOrderText');
   
@@ -162,7 +170,6 @@ function showOrderNotification(order) {
     orderText.textContent = `Order #${order.id} from ${order.customer} - $${order.amount}`;
     popup.classList.add('show');
     
-    // លាក់ popup ក្រោយ 5 វិនាទី
     setTimeout(() => {
       popup.classList.remove('show');
     }, 5000);
@@ -183,7 +190,6 @@ function closeOrderNotification() {
 }
 
 function playNotificationSound() {
-  // បង្កើត sound ធមមតា (browser autoplay policy)
   try {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
@@ -201,7 +207,7 @@ function playNotificationSound() {
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.5);
   } catch (e) {
-    console.log('Sound notification blocked by browser');
+    console.log('Sound blocked');
   }
 }
 
@@ -209,6 +215,8 @@ function playNotificationSound() {
 // NAVIGATION
 // ============================================
 function showSection(sectionId, element) {
+  console.log('Showing section:', sectionId);
+  
   // Update active nav item
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
@@ -219,7 +227,10 @@ function showSection(sectionId, element) {
   document.querySelectorAll('.section').forEach(section => {
     section.classList.remove('active');
   });
-  document.getElementById(sectionId).classList.add('active');
+  const targetSection = document.getElementById(sectionId);
+  if (targetSection) {
+    targetSection.classList.add('active');
+  }
   
   // Update title
   const titles = {
@@ -229,17 +240,29 @@ function showSection(sectionId, element) {
     users: { title: 'Users', subtitle: 'Manage Registered Users' }
   };
   
-  document.getElementById('pageTitle').textContent = titles[sectionId].title;
-  document.getElementById('pageSubtitle').textContent = titles[sectionId].subtitle;
+  const pageTitle = document.getElementById('pageTitle');
+  const pageSubtitle = document.getElementById('pageSubtitle');
+  
+  if (pageTitle && titles[sectionId]) {
+    pageTitle.textContent = titles[sectionId].title;
+  }
+  if (pageSubtitle && titles[sectionId]) {
+    pageSubtitle.textContent = titles[sectionId].subtitle;
+  }
   
   // Close sidebar on mobile
   if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.remove('active');
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) sidebar.classList.remove('active');
   }
 }
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('active');
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('active');
+    console.log('Sidebar toggled');
+  }
 }
 
 function refreshData() {
@@ -256,55 +279,68 @@ function refreshData() {
 // ============================================
 function renderHome() {
   // Stats
-  document.getElementById('statProducts').textContent = PRODUCTS.length;
-  document.getElementById('statOrders').textContent = ORDERS.length;
-  document.getElementById('statUsers').textContent = USERS.length;
+  const statProducts = document.getElementById('statProducts');
+  const statOrders = document.getElementById('statOrders');
+  const statUsers = document.getElementById('statUsers');
+  const statRevenue = document.getElementById('statRevenue');
+  
+  if (statProducts) statProducts.textContent = PRODUCTS.length;
+  if (statOrders) statOrders.textContent = ORDERS.length;
+  if (statUsers) statUsers.textContent = USERS.length;
   
   const totalRevenue = ORDERS
     .filter(o => o.status === 'paid')
     .reduce((sum, o) => sum + (o.amount || 0), 0);
-  document.getElementById('statRevenue').textContent = '$' + totalRevenue.toFixed(2);
+  
+  if (statRevenue) statRevenue.textContent = '$' + totalRevenue.toFixed(2);
   
   // Quick stats
-  document.getElementById('paidOrders').textContent = ORDERS.filter(o => o.status === 'paid').length;
-  document.getElementById('pendingOrders').textContent = ORDERS.filter(o => o.status === 'pending').length;
-  document.getElementById('unpaidOrders').textContent = ORDERS.filter(o => o.status === 'unpaid').length;
-  document.getElementById('totalDownloads').textContent = PRODUCTS.reduce((sum, p) => sum + (p.downloads || 0), 0);
+  const paidOrders = document.getElementById('paidOrders');
+  const pendingOrders = document.getElementById('pendingOrders');
+  const unpaidOrders = document.getElementById('unpaidOrders');
+  const totalDownloads = document.getElementById('totalDownloads');
+  
+  if (paidOrders) paidOrders.textContent = ORDERS.filter(o => o.status === 'paid').length;
+  if (pendingOrders) pendingOrders.textContent = ORDERS.filter(o => o.status === 'pending').length;
+  if (unpaidOrders) unpaidOrders.textContent = ORDERS.filter(o => o.status === 'unpaid').length;
+  if (totalDownloads) totalDownloads.textContent = PRODUCTS.reduce((sum, p) => sum + (p.downloads || 0), 0);
   
   // Recent products
   const recentContainer = document.getElementById('recentProducts');
-  const recent = PRODUCTS.slice(0, 5);
-  
-  if (recent.length === 0) {
-    recentContainer.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><p>No products yet</p></div>';
-  } else {
-    recentContainer.innerHTML = recent.map(p => {
-      if (p.image) {
-        return `
-          <div class="mini-product-item">
-            <img src="${p.image}" alt="${p.title}" class="mini-product-image">
-            <div class="mini-product-info">
-              <h4>${p.title}</h4>
-              <p>${p.vendor || 'Unknown'}</p>
+  if (recentContainer) {
+    const recent = PRODUCTS.slice(0, 5);
+    
+    if (recent.length === 0) {
+      recentContainer.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><p>No products yet</p></div>';
+    } else {
+      recentContainer.innerHTML = recent.map(p => {
+        if (p.image) {
+          return `
+            <div class="mini-product-item">
+              <img src="${p.image}" alt="${p.title}" class="mini-product-image">
+              <div class="mini-product-info">
+                <h4>${p.title}</h4>
+                <p>${p.vendor || 'Unknown'}</p>
+              </div>
+              <div class="mini-product-price">$${p.price}</div>
             </div>
-            <div class="mini-product-price">$${p.price}</div>
-          </div>
-        `;
-      } else {
-        return `
-          <div class="mini-product-item">
-            <div class="mini-product-icon">
-              <i class="fas fa-box"></i>
+          `;
+        } else {
+          return `
+            <div class="mini-product-item">
+              <div class="mini-product-icon">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="mini-product-info">
+                <h4>${p.title}</h4>
+                <p>${p.vendor || 'Unknown'}</p>
+              </div>
+              <div class="mini-product-price">$${p.price}</div>
             </div>
-            <div class="mini-product-info">
-              <h4>${p.title}</h4>
-              <p>${p.vendor || 'Unknown'}</p>
-            </div>
-            <div class="mini-product-price">$${p.price}</div>
-          </div>
-        `;
-      }
-    }).join('');
+          `;
+        }
+      }).join('');
+    }
   }
 }
 
@@ -314,6 +350,11 @@ function renderHome() {
 function renderProductsTable(products = null) {
   const allProducts = products || PRODUCTS;
   const tbody = document.getElementById('productsTableBody');
+  
+  if (!tbody) {
+    console.error('productsTableBody not found');
+    return;
+  }
   
   if (allProducts.length === 0) {
     tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-box-open"></i><p>No products found</p></div></td></tr>';
@@ -352,8 +393,13 @@ function renderProductsTable(products = null) {
 }
 
 function searchProducts() {
-  const query = document.getElementById('productSearch').value.toLowerCase();
-  const category = document.getElementById('categoryFilter').value;
+  const searchInput = document.getElementById('productSearch');
+  const categoryFilter = document.getElementById('categoryFilter');
+  
+  if (!searchInput) return;
+  
+  const query = searchInput.value.toLowerCase();
+  const category = categoryFilter ? categoryFilter.value : 'all';
   
   let filtered = PRODUCTS.filter(p => 
     p.title.toLowerCase().includes(query) ||
@@ -376,69 +422,122 @@ function previewImage(input) {
   const preview = document.getElementById('imagePreview');
   const imageData = document.getElementById('pImageData');
   
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-      imageData.value = e.target.result;
-      preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-      preview.classList.remove('empty');
-    };
-    
-    reader.readAsDataURL(input.files[0]);
-  }
+  if (!preview || !input.files || !input.files[0]) return;
+  
+  const reader = new FileReader();
+  
+  reader.onload = function(e) {
+    if (imageData) imageData.value = e.target.result;
+    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+    preview.classList.remove('empty');
+  };
+  
+  reader.readAsDataURL(input.files[0]);
 }
 
 function openProductModal() {
-  document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Product';
-  document.getElementById('productForm').reset();
-  document.getElementById('productId').value = '';
-  document.getElementById('pImageData').value = '';
-  document.getElementById('imagePreview').innerHTML = '';
-  document.getElementById('imagePreview').classList.add('empty');
-  document.getElementById('productModal').classList.add('active');
+  console.log('Opening product modal');
+  
+  const modalTitle = document.getElementById('modalTitle');
+  const productForm = document.getElementById('productForm');
+  const productId = document.getElementById('productId');
+  const pImageData = document.getElementById('pImageData');
+  const imagePreview = document.getElementById('imagePreview');
+  const productModal = document.getElementById('productModal');
+  
+  if (modalTitle) modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Add New Product';
+  if (productForm) productForm.reset();
+  if (productId) productId.value = '';
+  if (pImageData) pImageData.value = '';
+  if (imagePreview) {
+    imagePreview.innerHTML = '';
+    imagePreview.classList.add('empty');
+  }
+  if (productModal) {
+    productModal.classList.add('active');
+    console.log('Modal opened');
+  }
 }
 
 function closeProductModal() {
-  document.getElementById('productModal').classList.remove('active');
+  const productModal = document.getElementById('productModal');
+  if (productModal) {
+    productModal.classList.remove('active');
+    console.log('Modal closed');
+  }
 }
 
 function editProduct(id) {
+  console.log('Editing product:', id);
+  
   const product = PRODUCTS.find(p => p.id === id);
-  if (!product) return;
-  
-  document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Product';
-  document.getElementById('productId').value = product.id;
-  document.getElementById('pTitle').value = product.title;
-  document.getElementById('pCategory').value = product.category;
-  document.getElementById('pPrice').value = product.price;
-  document.getElementById('pVendor').value = product.vendor || '';
-  document.getElementById('pDesc').value = product.desc || '';
-  document.getElementById('pImageData').value = product.image || '';
-  
-  const preview = document.getElementById('imagePreview');
-  if (product.image) {
-    preview.innerHTML = `<img src="${product.image}" alt="${product.title}">`;
-    preview.classList.remove('empty');
-  } else {
-    preview.innerHTML = '';
-    preview.classList.add('empty');
+  if (!product) {
+    console.error('Product not found:', id);
+    return;
   }
   
-  document.getElementById('productModal').classList.add('active');
+  const modalTitle = document.getElementById('modalTitle');
+  const productId = document.getElementById('productId');
+  const pTitle = document.getElementById('pTitle');
+  const pCategory = document.getElementById('pCategory');
+  const pPrice = document.getElementById('pPrice');
+  const pVendor = document.getElementById('pVendor');
+  const pDesc = document.getElementById('pDesc');
+  const pImageData = document.getElementById('pImageData');
+  const imagePreview = document.getElementById('imagePreview');
+  const productModal = document.getElementById('productModal');
+  
+  if (modalTitle) modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Product';
+  if (productId) productId.value = product.id;
+  if (pTitle) pTitle.value = product.title;
+  if (pCategory) pCategory.value = product.category;
+  if (pPrice) pPrice.value = product.price;
+  if (pVendor) pVendor.value = product.vendor || '';
+  if (pDesc) pDesc.value = product.desc || '';
+  if (pImageData) pImageData.value = product.image || '';
+  
+  if (imagePreview) {
+    if (product.image) {
+      imagePreview.innerHTML = `<img src="${product.image}" alt="${product.title}">`;
+      imagePreview.classList.remove('empty');
+    } else {
+      imagePreview.innerHTML = '';
+      imagePreview.classList.add('empty');
+    }
+  }
+  
+  if (productModal) {
+    productModal.classList.add('active');
+    console.log('Edit modal opened');
+  }
 }
 
 function saveProduct(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   
-  const id = document.getElementById('productId').value;
+  console.log('Saving product...');
+  
+  const productId = document.getElementById('productId');
+  const pTitle = document.getElementById('pTitle');
+  const pCategory = document.getElementById('pCategory');
+  const pPrice = document.getElementById('pPrice');
+  const pVendor = document.getElementById('pVendor');
+  const pDesc = document.getElementById('pDesc');
+  const pImageData = document.getElementById('pImageData');
+  
+  if (!pTitle || !pCategory || !pPrice) {
+    showToast('❌ Please fill all required fields', 'error');
+    return;
+  }
+  
+  const id = productId ? productId.value : '';
   const productData = {
-    title: document.getElementById('pTitle').value.trim(),
-    category: document.getElementById('pCategory').value,
-    price: parseFloat(document.getElementById('pPrice').value),
-    vendor: document.getElementById('pVendor').value.trim(),
-    desc: document.getElementById('pDesc').value.trim(),
-    image: document.getElementById('pImageData').value
+    title: pTitle.value.trim(),
+    category: pCategory.value,
+    price: parseFloat(pPrice.value),
+    vendor: pVendor ? pVendor.value.trim() : '',
+    desc: pDesc ? pDesc.value.trim() : '',
+    image: pImageData ? pImageData.value : ''
   };
   
   if (id) {
@@ -486,12 +585,22 @@ function renderOrdersTable(filter = currentOrderFilter) {
   }
   
   // Update order stats
-  document.getElementById('allOrdersCount').textContent = ORDERS.length;
-  document.getElementById('paidCount').textContent = ORDERS.filter(o => o.status === 'paid').length;
-  document.getElementById('pendingCount').textContent = ORDERS.filter(o => o.status === 'pending').length;
-  document.getElementById('unpaidCount').textContent = ORDERS.filter(o => o.status === 'unpaid').length;
+  const allOrdersCount = document.getElementById('allOrdersCount');
+  const paidCount = document.getElementById('paidCount');
+  const pendingCount = document.getElementById('pendingCount');
+  const unpaidCount = document.getElementById('unpaidCount');
+  
+  if (allOrdersCount) allOrdersCount.textContent = ORDERS.length;
+  if (paidCount) paidCount.textContent = ORDERS.filter(o => o.status === 'paid').length;
+  if (pendingCount) pendingCount.textContent = ORDERS.filter(o => o.status === 'pending').length;
+  if (unpaidCount) unpaidCount.textContent = ORDERS.filter(o => o.status === 'unpaid').length;
   
   const tbody = document.getElementById('ordersTableBody');
+  
+  if (!tbody) {
+    console.error('ordersTableBody not found');
+    return;
+  }
   
   if (filtered.length === 0) {
     tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-shopping-cart"></i><p>No orders found</p></div></td></tr>';
@@ -534,6 +643,7 @@ function renderOrdersTable(filter = currentOrderFilter) {
 }
 
 function filterOrders(status, element) {
+  console.log('Filtering orders:', status);
   currentOrderFilter = status;
   
   // Update active card
@@ -548,50 +658,67 @@ function filterOrders(status, element) {
 }
 
 function viewOrder(orderId) {
+  console.log('Viewing order:', orderId);
+  
   const order = ORDERS.find(o => o.id === orderId);
-  if (!order) return;
+  if (!order) {
+    console.error('Order not found:', orderId);
+    return;
+  }
   
-  document.getElementById('orderDetails').innerHTML = `
-    <div class="order-detail-row">
-      <span class="label">Order ID</span>
-      <span class="value">${order.id}</span>
-    </div>
-    <div class="order-detail-row">
-      <span class="label">Customer</span>
-      <span class="value">${order.customer || 'Unknown'}</span>
-    </div>
-    <div class="order-detail-row">
-      <span class="label">Email</span>
-      <span class="value">${order.email || '-'}</span>
-    </div>
-    <div class="order-detail-row">
-      <span class="label">Product</span>
-      <span class="value">${order.product || '-'}</span>
-    </div>
-    <div class="order-detail-row">
-      <span class="label">Amount</span>
-      <span class="value" style="color:var(--success)">$${(order.amount || 0).toFixed(2)}</span>
-    </div>
-    <div class="order-detail-row">
-      <span class="label">Date</span>
-      <span class="value">${order.date || '-'}</span>
-    </div>
-    <div class="order-detail-row">
-      <span class="label">Status</span>
-      <span class="value">
-        <span class="status-badge ${order.status}">
-          <i class="fas ${order.status === 'paid' ? 'fa-check-circle' : order.status === 'pending' ? 'fa-clock' : 'fa-times-circle'}"></i>
-          ${order.status}
+  const orderDetails = document.getElementById('orderDetails');
+  const orderModal = document.getElementById('orderModal');
+  
+  if (orderDetails) {
+    orderDetails.innerHTML = `
+      <div class="order-detail-row">
+        <span class="label">Order ID</span>
+        <span class="value">${order.id}</span>
+      </div>
+      <div class="order-detail-row">
+        <span class="label">Customer</span>
+        <span class="value">${order.customer || 'Unknown'}</span>
+      </div>
+      <div class="order-detail-row">
+        <span class="label">Email</span>
+        <span class="value">${order.email || '-'}</span>
+      </div>
+      <div class="order-detail-row">
+        <span class="label">Product</span>
+        <span class="value">${order.product || '-'}</span>
+      </div>
+      <div class="order-detail-row">
+        <span class="label">Amount</span>
+        <span class="value" style="color:var(--success)">$${(order.amount || 0).toFixed(2)}</span>
+      </div>
+      <div class="order-detail-row">
+        <span class="label">Date</span>
+        <span class="value">${order.date || '-'}</span>
+      </div>
+      <div class="order-detail-row">
+        <span class="label">Status</span>
+        <span class="value">
+          <span class="status-badge ${order.status}">
+            <i class="fas ${order.status === 'paid' ? 'fa-check-circle' : order.status === 'pending' ? 'fa-clock' : 'fa-times-circle'}"></i>
+            ${order.status}
+          </span>
         </span>
-      </span>
-    </div>
-  `;
+      </div>
+    `;
+  }
   
-  document.getElementById('orderModal').classList.add('active');
+  if (orderModal) {
+    orderModal.classList.add('active');
+    console.log('Order modal opened');
+  }
 }
 
 function closeOrderModal() {
-  document.getElementById('orderModal').classList.remove('active');
+  const orderModal = document.getElementById('orderModal');
+  if (orderModal) {
+    orderModal.classList.remove('active');
+    console.log('Order modal closed');
+  }
 }
 
 function deleteOrder(orderId) {
@@ -610,6 +737,11 @@ function deleteOrder(orderId) {
 function renderUsersTable(users = null) {
   const allUsers = users || USERS;
   const tbody = document.getElementById('usersTableBody');
+  
+  if (!tbody) {
+    console.error('usersTableBody not found');
+    return;
+  }
   
   if (allUsers.length === 0) {
     tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-users"></i><p>No users found</p></div></td></tr>';
@@ -635,7 +767,10 @@ function renderUsersTable(users = null) {
 }
 
 function searchUsers() {
-  const query = document.getElementById('userSearch').value.toLowerCase();
+  const userSearch = document.getElementById('userSearch');
+  if (!userSearch) return;
+  
+  const query = userSearch.value.toLowerCase();
   const filtered = USERS.filter(u => 
     (u.name && u.name.toLowerCase().includes(query)) ||
     (u.email && u.email.toLowerCase().includes(query)) ||
@@ -649,6 +784,11 @@ function searchUsers() {
 // ============================================
 function showToast(message, type = 'success') {
   const toast = document.getElementById('toast');
+  if (!toast) {
+    console.error('Toast element not found');
+    return;
+  }
+  
   toast.textContent = message;
   toast.className = 'toast show' + (type === 'error' ? ' error' : type === 'warning' ? ' warning' : '');
   
@@ -657,11 +797,21 @@ function showToast(message, type = 'success') {
   }, 3000);
 }
 
-// Close modals when clicking outside
-document.getElementById('productModal').addEventListener('click', (e) => {
-  if (e.target.id === 'productModal') closeProductModal();
-});
-
-document.getElementById('orderModal').addEventListener('click', (e) => {
-  if (e.target.id === 'orderModal') closeOrderModal();
-});
+// Make functions globally accessible
+window.showSection = showSection;
+window.toggleSidebar = toggleSidebar;
+window.refreshData = refreshData;
+window.openProductModal = openProductModal;
+window.closeProductModal = closeProductModal;
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
+window.saveProduct = saveProduct;
+window.previewImage = previewImage;
+window.searchProducts = searchProducts;
+window.filterProducts = filterProducts;
+window.filterOrders = filterOrders;
+window.viewOrder = viewOrder;
+window.closeOrderModal = closeOrderModal;
+window.deleteOrder = deleteOrder;
+window.searchUsers = searchUsers;
+window.closeOrderNotification = closeOrderNotification;
