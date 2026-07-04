@@ -2,9 +2,10 @@
 <html lang="km" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#6366f1" />
   <title>AhnajakCode</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="admin.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -17,7 +18,7 @@
       </button>
       
       <a href="#" class="logo" onclick="showPage('home')">
-        <i class="fas fa-code"></i> AHNAJAK<span>CODE</span>
+        <i class="fas fa-code"></i> Ahnajak<span>Code</span>
       </a>
       
       <div class="nav-right">
@@ -77,6 +78,15 @@
       <li><a href="#" onclick="showPage('profile'); toggleProfileDropdown();"><i class="fas fa-user"></i> My Profile</a></li>
       <li><a href="#" onclick="showPage('dashboard'); toggleProfileDropdown();"><i class="fas fa-box"></i> My Purchases</a></li>
       <li><a href="#" onclick="showPage('cart'); toggleProfileDropdown();"><i class="fas fa-shopping-cart"></i> My Cart</a></li>
+      
+      <!-- SHARE LINK BUTTON -->
+      <li id="shareMenuItem" style="display:none;">
+        <a href="#" onclick="shareLink()" class="share-menu-item">
+          <i class="fas fa-share-alt"></i> Share & Earn
+          <span class="share-badge" id="shareBadge">+10%</span>
+        </a>
+      </li>
+      
       <li class="profile-divider"></li>
       <li id="profileAuth">
         <a href="#" onclick="showPage('login'); toggleProfileDropdown();"><i class="fas fa-sign-in-alt"></i> Login / Register</a>
@@ -89,7 +99,7 @@
     <div class="hero">
       <div class="hero-content">
         <h1>Welcome to <span>AhnajakCode</span></h1>
-        <p>ទិញ Script, Plugins, Templates និង Digital Products គុណភាពខ្ពស់ សម្រាប់ Developer កម្ពុជា និងអន្តរជាតិ។</p>
+        <p> Script, Plugins, Templates and Digital Products</p>
         <button class="btn-primary" onclick="showPage('products')">
           <i class="fas fa-rocket"></i> Browse Products
         </button>
@@ -97,27 +107,10 @@
     </div>
 
     <div class="container">
-      <h2 class="section-title">🔥 Featured Products</h2>
+      <h2 class="section-title"> Featured Products</h2>
       <div class="products-grid" id="featuredProducts"></div>
     </div>
-
-    <div class="container features">
-      <div class="feature-box">
-        <i class="fas fa-bolt"></i>
-        <h3>Fast Delivery</h3>
-        <p>ទាញយកភ្លាមៗ បន្ទាប់ពីទូទាត់ប្រាក់រួច។</p>
-      </div>
-      <div class="feature-box">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Secure Payment</h3>
-        <p>ប្រព័ន្ទូទាត់មានសុវត្ថិភាព 100%។</p>
-      </div>
-      <div class="feature-box">
-        <i class="fas fa-headset"></i>
-        <h3>24/7 Support</h3>
-        <p>ជំនួយបច្ចេកទេសគ្ប់ពេលវេលា។</p>
-      </div>
-    </div>
+    
   </section>
 
   <!-- PRODUCTS PAGE -->
@@ -145,6 +138,7 @@
     <div class="container about-content">
       <h2 class="section-title">About Us</h2>
       <p>AhnajakCode គឺជាវេបសាយលក់ Digital Products ដែលផ្តល់ជូននូវ Script, Plugin, Template និង UI Kit គុណភាពខ្ពស់។</p>
+      <p>យើងប្តេជ្ញាផ្តល់នូវផលិតផលដែលមានគុណភាព, ងាយស្រួលប្រើ និងមានតម្លៃសមរម្យ។</p>
       <div class="stats">
         <div><h3>500+</h3><p>Products</p></div>
         <div><h3>10K+</h3><p>Customers</p></div>
@@ -277,7 +271,7 @@
         </button>
       </div>
       
-      <h3 class="section-title"> My Purchases</h3>
+      <h3 class="section-title">📦 My Purchases</h3>
       <div class="products-grid" id="myPurchases"></div>
     </div>
   </section>
@@ -289,7 +283,7 @@
         <i class="fas fa-check-circle"></i>
       </div>
       <h2>Payment Successful!</h2>
-      <p>test version not real payment</p>
+      <p>អរគុណសម្រាប់ការទិញ។ ផលិតផលរបស់អ្នកអាចទាញយកបានឥឡូវនេះ។</p>
       <div class="success-details" id="successDetails"></div>
       <button class="btn-primary" onclick="closeSuccessModal()">
         <i class="fas fa-download"></i> Download Now
@@ -300,12 +294,12 @@
   <!-- FOOTER -->
   <footer>
     <div class="container">
-      <p>&copy; 2026 AhnajakCode. All rights reserved.</p>
-      <p><a href="admin.html">Admin Panel</a></p>
+      <p>&copy; 2026 AhnajakCode. All rights reserved. Made with ❤️ in Cambodia</p>
+      <p><a href="admin/index.html">Admin Panel</a></p>
     </div>
   </footer>
 
   <div id="toast" class="toast"></div>
-  <script src="script.js"></script>
+  <script src="admin.js"></script>
 </body>
-        </html>
+            </html>
