@@ -52,9 +52,9 @@
 // ============================================
 let PRODUCTS = JSON.parse(localStorage.getItem('products')) || [
   { id: 1, title: "E-commerce Script", category: "script", price: 49, desc: "Script ពេញលេញសម្រាប់ហាងអនឡាញ", vendor: "DevMaster", downloads: 12, image: "" },
-  { id: 2, title: "WordPress SEO Plugin", category: "plugin", price: 29, desc: "Plugin សម្រាប់បង្កើន SEO", vendor: "PluginPro", downloads: 8, image: "" },
+  { id: 2, title: "WordPress SEO Plugin", category: "plugin", price: 29, desc: "Plugin សម្ាប់បង្កើន SEO", vendor: "PluginPro", downloads: 8, image: "" },
   { id: 3, title: "Portfolio Template", category: "template", price: 19, desc: "Template ស្អាតសម្រាប់ Portfolio", vendor: "TemplateHub", downloads: 15, image: "" },
-  { id: 4, title: "Admin Dashboard UI", category: "ui", price: 39, desc: "UI Kit សម្រាប់ Admin Dashboard", vendor: "UIDesign", downloads: 6, image: "" }
+  { id: 4, title: "Admin Dashboard UI", category: "ui", price: 39, desc: "UI Kit សម្ាប់ Admin Dashboard", vendor: "UIDesign", downloads: 6, image: "" }
 ];
 
 let ORDERS = JSON.parse(localStorage.getItem('admin_orders')) || [];
@@ -74,10 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOrdersTable();
   renderUsersTable();
   
-  // តាមដានការផ្លាស់ប្តូរ localStorage (Real-time orders)
+  // តាមដានការផ្លាស់បតូរ localStorage (Real-time orders)
   window.addEventListener('storage', handleStorageChange);
   
-  // ពិនិត្យ orders ថ្មីរៀងរាល់ 3 វិនាទី
+  // ពិនិត្យ orders ថមីរៀងរាល់ 3 វិនាទី
   setInterval(checkNewOrders, 3000);
 });
 
@@ -124,7 +124,7 @@ function checkNewOrders() {
   const currentOrders = JSON.parse(localStorage.getItem('admin_orders')) || [];
   const currentTime = Date.now();
   
-  // ពិនិត្យ order ថ្មីក្នុងរយៈពេល 10 វិនាទីចុងក្រោយ
+  // ពិនិត្ order ថ្មីក្នុងរយៈពេល 10 វិនាទីចុងក្រោយ
   const recentOrders = currentOrders.filter(o => {
     const orderTime = new Date(o.date).getTime();
     return orderTime > lastOrderCheck && orderTime > (currentTime - 10000);
@@ -154,21 +154,25 @@ function showOrderNotification(order) {
     notifCount.textContent = newOrdersCount;
   }
   
-  // បង្ហាញ popup notification
+  // បង្ាញ popup notification
   const popup = document.getElementById('orderNotificationPopup');
   const orderText = document.getElementById('newOrderText');
   
-  orderText.textContent = `Order #${order.id} from ${order.customer} - $${order.amount}`;
-  popup.classList.add('show');
-  
-  // លាក់ popup ក្រោយ 5 វិនាទី
-  setTimeout(() => {
-    popup.classList.remove('show');
-  }, 5000);
+  if (popup && orderText) {
+    orderText.textContent = `Order #${order.id} from ${order.customer} - $${order.amount}`;
+    popup.classList.add('show');
+    
+    // លាក់ popup ក្រោយ 5 វិនាទី
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 5000);
+  }
 }
 
 function closeOrderNotification() {
-  document.getElementById('orderNotificationPopup').classList.remove('show');
+  const popup = document.getElementById('orderNotificationPopup');
+  if (popup) popup.classList.remove('show');
+  
   newOrdersCount = 0;
   
   const notifDot = document.getElementById('orderNotification');
@@ -179,7 +183,7 @@ function closeOrderNotification() {
 }
 
 function playNotificationSound() {
-  // បង្កើត sound ធម្មតា (browser autoplay policy)
+  // បង្កើត sound ធមមតា (browser autoplay policy)
   try {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
@@ -538,14 +542,6 @@ function filterOrders(status, element) {
   });
   if (element) {
     element.classList.add('active');
-  } else {
-    // If called programmatically, find the right element
-    const cards = document.querySelectorAll('.order-stat-card');
-    cards.forEach(card => {
-      if (card.onclick.toString().includes(status)) {
-        card.classList.add('active');
-      }
-    });
   }
   
   renderOrdersTable(status);
