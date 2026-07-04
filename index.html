@@ -2,19 +2,17 @@
 <html lang="km" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <meta name="theme-color" content="#6366f1" />
-  <title>AhnajakCode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AhnajakCode - Script, Plugins & Digital Products</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 </head>
 <body>
 
-  <!-- TOP NAVBAR -->
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-container">
-      <button class="hamburger-btn" onclick="toggleSidebar()" title="Menu">
+      <button class="hamburger-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
       </button>
       
@@ -27,10 +25,12 @@
           <select id="currencySelect" onchange="changeCurrency()">
             <option value="USD">💵 USD</option>
             <option value="KHR">🇰🇭 KHR</option>
+            <option value="THB">🇭 THB</option>
+            <option value="EUR">🇪 EUR</option>
           </select>
         </div>
         
-        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+        <button class="theme-toggle" onclick="toggleTheme()">
           <i class="fas fa-moon" id="themeIcon"></i>
         </button>
         
@@ -46,7 +46,7 @@
     </div>
   </nav>
 
-  <!-- SIDEBAR NAVIGATION -->
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3><i class="fas fa-code"></i> Menu</h3>
@@ -64,7 +64,6 @@
       </li>
     </ul>
   </aside>
-
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
   <!-- PROFILE DROPDOWN -->
@@ -113,12 +112,12 @@
       <div class="feature-box">
         <i class="fas fa-shield-alt"></i>
         <h3>Secure Payment</h3>
-        <p>ប្រព័ន្ធទូទាត់មានសុវត្ថិភាព 100%។</p>
+        <p>ប្រព័ន្ទូទាត់មានសុវត្ថិភាព 100%។</p>
       </div>
       <div class="feature-box">
         <i class="fas fa-headset"></i>
         <h3>24/7 Support</h3>
-        <p>ជំនួយបច្ចេកទេសគ្រប់ពេលវេលា។</p>
+        <p>ជំនួយបច្ចេកទេសគ្ប់ពេលវេលា។</p>
       </div>
     </div>
   </section>
@@ -148,7 +147,6 @@
     <div class="container about-content">
       <h2 class="section-title">About Us</h2>
       <p>AhnajakCode គឺជាវេបសាយលក់ Digital Products ដែលផ្តល់ជូននូវ Script, Plugin, Template និង UI Kit គុណភាពខ្ពស់។</p>
-      <p>យើងប្តេជ្ញាផ្តល់នូវផលិតផលដែលមានគុណភាព, ងាយស្រួលប្រើ និងមានតម្លៃសមរម្យ។</p>
       <div class="stats">
         <div><h3>500+</h3><p>Products</p></div>
         <div><h3>10K+</h3><p>Customers</p></div>
@@ -236,63 +234,6 @@
             <i class="fas fa-save"></i> Save Changes
           </button>
         </form>
-        
-        <div class="profile-actions">
-          <button class="btn-secondary" onclick="showChangePassword()">
-            <i class="fas fa-key"></i> Change Password
-          </button>
-          <button class="btn-secondary" onclick="showChangeEmail()">
-            <i class="fas fa-envelope"></i> Change Email
-          </button>
-        </div>
-      </div>
-      
-      <div class="modal" id="changePasswordModal">
-        <div class="modal-content">
-          <h3><i class="fas fa-key"></i> Change Password</h3>
-          <form id="changePasswordForm">
-            <div class="input-group">
-              <label>Current Password</label>
-              <input type="password" id="currentPassword" required />
-            </div>
-            <div class="input-group">
-              <label>New Password</label>
-              <input type="password" id="newPassword" required minlength="6" />
-            </div>
-            <div class="input-group">
-              <label>Confirm New Password</label>
-              <input type="password" id="confirmPassword" required minlength="6" />
-            </div>
-            <div class="modal-actions">
-              <button type="button" class="btn-secondary" onclick="closeModal('changePasswordModal')">Cancel</button>
-              <button type="submit" class="btn-primary">Update Password</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      
-      <div class="modal" id="changeEmailModal">
-        <div class="modal-content">
-          <h3><i class="fas fa-envelope"></i> Change Email</h3>
-          <form id="changeEmailForm">
-            <div class="input-group">
-              <label>Current Email</label>
-              <input type="email" id="currentEmail" readonly />
-            </div>
-            <div class="input-group">
-              <label>New Email</label>
-              <input type="email" id="newEmail" required />
-            </div>
-            <div class="input-group">
-              <label>Password</label>
-              <input type="password" id="emailPassword" required />
-            </div>
-            <div class="modal-actions">
-              <button type="button" class="btn-secondary" onclick="closeModal('changeEmailModal')">Cancel</button>
-              <button type="submit" class="btn-primary">Update Email</button>
-            </div>
-          </form>
-        </div>
       </div>
     </div>
   </section>
@@ -328,7 +269,7 @@
     </div>
   </section>
 
-  <!-- USER DASHBOARD -->
+  <!-- DASHBOARD PAGE -->
   <section id="dashboard" class="page">
     <div class="container">
       <div class="dashboard-header">
@@ -338,76 +279,10 @@
         </button>
       </div>
       
-      <div class="affiliate-section">
-        <h3><i class="fas fa-handshake"></i> Affiliate Program</h3>
-        <p>ចែករំលែក Link របស់អ្នក ហើយទទួលបាន 10% commission!</p>
-        <div class="affiliate-link-box">
-          <input type="text" id="affiliateLink" readonly />
-          <button class="btn-small" onclick="copyAffiliateLink()">
-            <i class="fas fa-copy"></i> Copy
-          </button>
-        </div>
-        <div class="affiliate-stats">
-          <div>
-            <h4 id="affiliateClicks">0</h4>
-            <p>Clicks</p>
-          </div>
-          <div>
-            <h4 id="affiliateEarnings">$0.00</h4>
-            <p>Earnings</p>
-          </div>
-        </div>
-      </div>
-      
       <h3 class="section-title">📦 My Purchases</h3>
       <div class="products-grid" id="myPurchases"></div>
     </div>
   </section>
-
-  <!-- PAYMENT MODAL -->
-  <div class="payment-modal" id="paymentModal">
-    <div class="payment-modal-content">
-      <div class="payment-header">
-        <h2><i class="fas fa-qrcode"></i> Scan to Pay</h2>
-        <button class="close-payment" onclick="closePaymentModal()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="payment-body">
-        <div class="qr-container">
-          <canvas id="qrCanvas"></canvas>
-        </div>
-        
-        <div class="payment-info">
-          <div class="info-row">
-            <span>Order ID:</span>
-            <strong id="paymentOrderId">-</strong>
-          </div>
-          <div class="info-row">
-            <span>Amount (USD):</span>
-            <strong id="paymentAmountUSD">$0.00</strong>
-          </div>
-          <div class="info-row">
-            <span>Amount (KHR):</span>
-            <strong id="paymentAmountKHR">៛0</strong>
-          </div>
-        </div>
-        
-        <div class="payment-status" id="paymentStatus">
-          <div class="status-pending">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>Waiting for payment...</p>
-          </div>
-        </div>
-        
-        <div class="payment-timer">
-          <i class="fas fa-clock"></i>
-          <span>Expires in: <strong id="paymentTimer">10:00</strong></span>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- SUCCESS MODAL -->
   <div class="success-modal" id="successModal">
@@ -416,7 +291,7 @@
         <i class="fas fa-check-circle"></i>
       </div>
       <h2>Payment Successful!</h2>
-      <p>អរគុណសម្រាប់ការទិញ។ ផលិតផលរបស់អ្នកអាចទាញយកបានឥឡូវនេះ។</p>
+      <p>អរគុណសម្រាប់ការទិញ។ ផលិតផលរបស់អនកអាចទាញយកបានឥឡូវនេះ។</p>
       <div class="success-details" id="successDetails"></div>
       <button class="btn-primary" onclick="closeSuccessModal()">
         <i class="fas fa-download"></i> Download Now
@@ -428,12 +303,11 @@
   <footer>
     <div class="container">
       <p>&copy; 2026 AhnajakCode. All rights reserved. Made with ❤️ in Cambodia</p>
-      <p><a href="admin.html">Admin Panel</a></p>
+      <p><a href="admin/index.html">Admin Panel</a></p>
     </div>
   </footer>
 
   <div id="toast" class="toast"></div>
-
   <script src="script.js"></script>
 </body>
-              </html>
+        </html>
