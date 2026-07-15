@@ -1,305 +1,497 @@
 <!DOCTYPE html>
-<html lang="km" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <meta name="theme-color" content="#6366f1" />
-  <title>AhnajakCode</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="Z1E0LdZhaj6nRqTT8fd7TXhmW0RkwFL7xcFtmoqz">
+    <title>Apsara Hosting | Game Servers, Minecraft Hosting &amp; VPS in Cambodia</title>
+    <meta name="title" content="Apsara Hosting | Game Servers, Minecraft Hosting &amp; VPS in Cambodia">
+    <meta name="description" content="Apsara Hosting — Cambodia's game server host. Minecraft Java &amp; Bedrock, FiveM, Ark, VPS and cloud hosting. Instant setup, NVMe, DDoS protection, 24/7 support. Order at apsara.host.">
+    <meta name="keywords" content="apsara hosting, apsara hosting cambodia, apsara game hosting, minecraft hosting cambodia, game server hosting, vps hosting cambodia">
+    <meta name="author" content="Apsara Hosting">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://apsara.host">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://apsara.host">
+    <meta property="og:title" content="Apsara Hosting | Game Servers, Minecraft Hosting &amp; VPS in Cambodia">
+    <meta property="og:description" content="Apsara Hosting — premium game servers and Minecraft hosting. Deploy in minutes on AMD EPYC and NVMe with DDoS protection.">
+    <meta property="og:image" content="https://apsara.host/assets/og-image.png">
+    <meta property="og:site_name" content="Apsara Hosting">
+    <meta property="og:locale" content="en">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apsara Hosting | Game Servers, Minecraft Hosting &amp; VPS in Cambodia">
+    <meta name="twitter:description" content="Apsara Hosting — premium game servers and Minecraft hosting. Deploy in minutes on AMD EPYC and NVMe with DDoS protection.">
+    <meta name="twitter:image" content="https://apsara.host/assets/og-image.png">
+
+    <meta name="theme-color" content="#6cf2b2">
+
+    <script type="application/ld+json">
+        [{"@context":"https://schema.org","@type":"Organization","name":"Apsara Hosting","url":"https://apsara.host","logo":"https://apsara.host/assets/og-image.png","description":"Premium game server hosting, Minecraft hosting, VPS, and cloud hosting.","sameAs":[]},{"@context":"https://schema.org","@type":"WebSite","name":"Apsara Hosting","url":"https://apsara.host","publisher":{"@type":"Organization","name":"Apsara Hosting"},"potentialAction":{"@type":"SearchAction","target":"https://apsara.host/hosting?search={search_term_string}","query-input":"required name=search_term_string"}},{"@context":"https://schema.org","@type":"WebPage","name":"Apsara Hosting — Game Servers & Minecraft Hosting","url":"https://apsara.host","description":"Official Apsara Hosting website. Game servers, Minecraft hosting, VPS, and cloud hosting.","isPartOf":{"@type":"WebSite","name":"Apsara Hosting","url":"https://apsara.host"}}]
+    </script>
+
+    <!-- CSS Preload & Styles -->
+    <link rel="preload" as="style" href="https://apsara.host/default/assets/app-NcX4BrvR.css">
+    <link rel="stylesheet" href="https://apsara.host/default/assets/app-NcX4BrvR.css" data-navigate-track="reload">
+
+    <style>
+        :root {
+            /* Branding Colors - React Design (#6cf2b2 to #64b5ff gradient) */
+            --color-primary: 162 85% 68%;
+            --color-secondary: 207 100% 70%;
+            /* Neutral Colors - Dark borders */
+            --color-neutral: 0 0% 7%;
+            /* Text Colors - Light on dark */
+            --color-base: 228 100% 95%;
+            --color-muted: 222 33% 68%;
+            --color-inverted: 222 20% 7%;
+            /* State Colors */
+            --color-success: 142 71% 45%;
+            --color-error: 0 75% 60%;
+            --color-warning: 25 95% 53%;
+            --color-inactive: 0 0% 63%;
+            --color-info: 210 100% 60%;
+            /* Background Colors - Dark navy theme #0b0e13 */
+            --color-background: 222 20% 7%;
+            --color-background-secondary: 222 18% 9%;
+        }
+
+        .dark {
+            /* Branding Colors - React Design (#6cf2b2 to #64b5ff gradient) */
+            --color-primary: 162 85% 68%;
+            --color-secondary: 207 100% 70%;
+            /* Neutral Colors - Dark borders */
+            --color-neutral: 0 0% 7%;
+            /* Text Colors - Light on dark */
+            --color-base: 228 100% 95%;
+            --color-muted: 222 33% 68%;
+            --color-inverted: 222 20% 7%;
+            /* Background Colors - Dark navy theme #0b0e13 */
+            --color-background: 222 20% 7%;
+            --color-background-secondary: 222 18% 9%;
+        }
+    </style>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+    <link rel="icon" href="/storage/favicon.ico">
 </head>
-<body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <button class="hamburger-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-      </button>
-      
-      <a href="#" class="logo" onclick="showPage('home')">
-        <i class="fas fa-code"></i> Ahnajak<span>Code</span>
-      </a>
-      
-      <div class="nav-right">
-        <div class="currency-selector">
-          <select id="currencySelect" onchange="changeCurrency()">
-            <option value="USD">💵 USD</option>
-            <option value="KHR">🇰🇭 KHR</option>
-          </select>
+<body class="w-full bg-[#0b0e13] text-[#e6ecff] min-h-screen antialiased font-sans">
+
+    <!-- SEO Crawler Content (hidden from visual) -->
+    <div class="seo-crawler-content">
+        <header>
+            <h1>Apsara Hosting</h1>
+            <p>Apsara Hosting is a game server and Minecraft hosting provider offering Minecraft Java and Bedrock servers, FiveM, Ark, cloud hosting, and VPS plans with instant deployment, enterprise DDoS protection, NVMe storage, and 24/7 support. Browse hosting plans, compare products, and order online at apsara.host.</p>
+        </header>
+
+        <nav aria-label="Primary">
+            <h2>Get started</h2>
+            <ul>
+                <li><a href="https://apsara.host/hosting/setup">Order hosting</a></li>
+                <li><a href="https://apsara.host/hosting">Browse hosting</a></li>
+                <li><a href="https://apsara.host/hardware">Hardware &amp; locations</a></li>
+            </ul>
+        </nav>
+
+        <nav aria-label="Hosting categories">
+            <h2>Hosting categories</h2>
+            <ul>
+                <li><a href="https://apsara.host/products/ark-survival-ascended">Ark: Survival Ascended</a></li>
+                <li><a href="https://apsara.host/products/ark-survival-evolved">Ark: Survival Evolved</a></li>
+                <li><a href="https://apsara.host/products/fivem-hosting">Fivem Hosting</a></li>
+                <li><a href="https://apsara.host/products/generic-hosting">Generic Hosting</a></li>
+                <li><a href="https://apsara.host/products/gta-san-andreas-multiplayer">GTA: San Andreas Multiplayer</a></li>
+                <li><a href="https://apsara.host/products/hytale">Hytale</a></li>
+                <li><a href="https://apsara.host/products/limbo-server">Limbo Server</a></li>
+                <li><a href="https://apsara.host/products/minecraft-bedorck">Minecraft Bedorck</a></li>
+            </ul>
+        </nav>
+
+        <nav aria-label="Hosting products">
+            <h2>Popular hosting products</h2>
+            <ul>
+                <li><a href="https://apsara.host/products/generic-hosting/elite-plan-3">Elite Plan</a></li>
+                <li><a href="https://apsara.host/products/fivem-hosting/advanced-plan-2">Advanced Plan</a></li>
+                <li><a href="https://apsara.host/products/generic-hosting/advanced-plan-3">Advanced Plan</a></li>
+                <li><a href="https://apsara.host/products/ark-survival-evolved/advanced-plan">Advanced Plan</a></li>
+                <li><a href="https://apsara.host/products/ark-survival-ascended/advanced-plan-4">Advanced Plan</a></li>
+                <li><a href="https://apsara.host/products/minecraft-hosting-java/advanced-plus-starter-1">Advanced Plus Starter</a></li>
+                <li><a href="https://apsara.host/products/minecraft-bedorck/advanced-plus-starter-3">Advanced Plus Starter</a></li>
+                <li><a href="https://apsara.host/products/minecraft-hosting-java/advanced-starter-1">Advanced Starter</a></li>
+                <li><a href="https://apsara.host/products/gta-san-andreas-multiplayer/advanced-starter">Advanced Starter</a></li>
+                <li><a href="https://apsara.host/products/hytale/advanced-starter-2">Advanced Starter</a></li>
+                <li><a href="https://apsara.host/products/minecraft-bedorck/advanced-starter-3">Advanced Starter</a></li>
+                <li><a href="https://apsara.host/products/minecraft-hosting-java/basic-starter-1">Basic Starter</a></li>
+                <li><a href="https://apsara.host/products/gta-san-andreas-multiplayer/basic-starter">Basic Starter</a></li>
+                <li><a href="https://apsara.host/products/hytale/basic-starter-2">Basic Starter</a></li>
+                <li><a href="https://apsara.host/products/minecraft-bedorck/basic-starter-3">Basic Starter</a></li>
+                <li><a href="https://apsara.host/products/generic-hosting/beast-plan-3">Beast Plan</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- React Root -->
+    <div id="react-root">
+        <div class="min-h-screen flex flex-col bg-[#0b0e13] text-[#e6ecff]">
+
+            <!-- Header -->
+            <header class="header">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="flex space-between gap-x-2">
+                            <div class="logo-container">
+                                <a class="flex items-center group" href="/" data-discover="true">
+                                    <div class="logo">
+                                        <img alt="Apsara Hosting" class="h-7 w-auto dark:hidden" src="/storage/logo-light.webp">
+                                        <img alt="Apsara Hosting" class="h-7 w-auto hidden dark:inline-block" src="/storage/logo-dark.webp">
+                                    </div>
+                                    <div>
+                                        <p class="logo-text">Apsara Hosting</p>
+                                        <p class="logo-subtext hidden sm:block">GAME HOSTING</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <nav class="nav">
+                                <a class="nav-link" href="/hosting" data-discover="true">Hosting</a>
+                                <a class="nav-link" href="/tickets" data-discover="true">Tickets</a>
+                                <a class="nav-link" href="/hardware" data-discover="true">Hardware</a>
+                            </nav>
+                        </div>
+                        <div class="action-buttons">
+                            <div class="relative">
+                                <button type="button" class="flex items-center gap-2 px-3 py-2 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] transition-all text-[#e6ecff] hover:border-white/[0.15]" aria-label="Change language">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 text-[#6cf2b2] shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">🇺🇸</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-3.5 h-3.5 transition-transform shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <button type="button" class="cart-link flex items-center justify-center w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/[0.15] transition-all text-[#e6ecff] group" aria-label="Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 shrink-0 header-action-icon-sm text-[#cbd4ea] group-hover:text-[#6cf2b2] group-hover:scale-110 transition-all">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+                                </svg>
+                            </button>
+                            <div class="hidden md:flex items-center gap-2">
+                                <a class="action-button login" href="/login" data-discover="true">Login</a>
+                                <a class="action-button register" href="/register" data-discover="true"><span>Register</span></a>
+                            </div>
+                            <div class="md:hidden">
+                                <button type="button" class="mobile-toggle" aria-label="Toggle mobile menu">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-grow w-full page-enter">
+                <div>
+
+                    <!-- Hero Section -->
+                    <section class="relative overflow-hidden radial-gradient-bg">
+                        <div class="container mx-auto px-5 py-16 md:py-20 max-w-[1200px]">
+                            <div class="grid md:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
+                                <div class="animate-slide-up">
+                                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-[#a6b0c3] font-bold text-xs mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 text-[#6cf2b2] shrink-0">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"></path>
+                                        </svg>
+                                        Instant deployment • 24/7 Support • DDoS Protection
+                                    </span>
+                                    <h1 class="text-[42px] leading-[1.08] font-bold mb-3">Premium Game Hosting, uptime, and your budget</h1>
+                                    <p class="text-[#cbd4ea] text-base leading-relaxed max-w-[56ch] mb-6">Experience premium game hosting that delivers exceptional uptime without breaking your budget. Spin up your server in seconds with high-frequency CPUs, DDR5 RAM, and NVMe Gen4 storage. Our reliable hosting infrastructure ensures your game server stays online 24/7 while offering affordable pricing plans for every budget. Build vanilla, plugin, or modded worlds with zero hassle and full control.</p>
+                                    <div class="flex flex-wrap gap-3 mb-7">
+                                        <a class="px-4 py-2.5 rounded-xl font-bold text-[#0b0e13] bg-gradient-to-br from-[#6cf2b2] to-[#64b5ff] hover:-translate-y-0.5 transition-transform inline-flex items-center gap-2 btn-shine shadow-[0_8px_24px_rgba(108,242,178,0.25)]" href="/hosting/setup/minecraft" data-discover="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"></path>
+                                            </svg>
+                                            Start your server
+                                        </a>
+                                        <a class="px-4 py-2.5 rounded-xl font-bold border border-white/[0.08] bg-[#0f131b] hover:-translate-y-0.5 hover:border-white/[0.15] transition-all inline-flex items-center gap-2" href="/tickets/create" data-discover="true">See how it works</a>
+                                    </div>
+                                    <div class="flex flex-wrap gap-7 text-[#c7d2ec]">
+                                        <div class="flex flex-col">
+                                            <strong class="text-[22px] font-bold bg-gradient-to-r from-[#6cf2b2] to-[#64b5ff] bg-clip-text text-transparent">200+</strong>
+                                            <span class="text-[#a6b0c3] text-sm">Servers deployed</span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <strong class="text-[22px] font-bold bg-gradient-to-r from-[#6cf2b2] to-[#64b5ff] bg-clip-text text-transparent">99.99%</strong>
+                                            <span class="text-[#a6b0c3] text-sm">Network uptime</span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <strong class="text-[22px] font-bold bg-gradient-to-r from-[#6cf2b2] to-[#64b5ff] bg-clip-text text-transparent">&lt; 5 min</strong>
+                                            <span class="text-[#a6b0c3] text-sm">Avg. support reply</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="enterprise-panel p-[18px] animate-slide-up animate-slide-up-delay-2 animate-float">
+                                    <div class="grid grid-cols-2 gap-2.5 mb-3">
+                                        <div class="stat-pill">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-6 h-6 text-[#6cf2b2] shrink-0">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"></path>
+                                            </svg>
+                                            AMD EPYC 4584PX
+                                        </div>
+                                        <div class="stat-pill">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 text-[#6cf2b2] shrink-0">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"></path>
+                                            </svg>
+                                            DDR5 ECC RAM
+                                        </div>
+                                        <div class="stat-pill">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 text-[#6cf2b2] shrink-0">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"></path>
+                                            </svg>
+                                            NVMe Gen4 SSD
+                                        </div>
+                                        <div class="stat-pill">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 text-[#6cf2b2] shrink-0">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"></path>
+                                            </svg>
+                                            Enterprise DDoS
+                                        </div>
+                                    </div>
+                                    <div class="enterprise-panel p-[18px]">
+                                        <strong class="block mb-1.5">Try risk-free</strong>
+                                        <p class="text-[#a6b0c3] text-sm m-0">24-hour trial available on select plans.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Our Services / Hosting Wizard -->
+                    <section id="hosting-wizard" class="py-[70px]">
+                        <div class="container mx-auto px-5 max-w-[1200px]">
+                            <p class="text-[#6cf2b2] font-semibold mb-2 animate-slide-up">Our Services</p>
+                            <h2 class="text-[32px] font-bold mb-2.5 animate-slide-up animate-slide-up-delay-1">High performance game server hosting with simple control and honest pricing</h2>
+                            <p class="text-[#cbd4ea] text-base leading-relaxed max-w-[800px] mb-2 animate-slide-up animate-slide-up-delay-2">Choose Minecraft, game, or cloud hosting — then follow the guided setup to find your plan.</p>
+                            <div class="hosting-type-grid">
+                                <!-- Minecraft Hosting -->
+                                <a class="hosting-type-card hosting-type-card--minecraft" href="/hosting/setup/minecraft" data-discover="true">
+                                    <span class="hosting-type-card-icon hosting-type-card-icon--minecraft" aria-hidden="true">
+                                        <img alt="" class="hosting-type-card-image" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Minecraft-creeper-face.jpg">
+                                    </span>
+                                    <h3 class="hosting-type-card-title">Minecraft Hosting</h3>
+                                    <p class="hosting-type-card-copy">Java or Bedrock — we help you pick the right plan for your player count.</p>
+                                    <span class="hosting-type-card-link">Get started
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 shrink-0 link-arrow">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                                <!-- Game Hosting -->
+                                <a class="hosting-type-card hosting-type-card--game" href="/hosting/setup/game" data-discover="true">
+                                    <span class="hosting-type-card-hero--game" aria-hidden="true">
+                                        <img alt="" class="hosting-type-card-image--game" loading="lazy" src="/assets/images/game-hosting-logo.png?v=2">
+                                    </span>
+                                    <span class="hosting-type-card-body">
+                                        <h3 class="hosting-type-card-title">Game Hosting</h3>
+                                        <p class="hosting-type-card-copy">FiveM, Hytale, Ark, GTA SA-MP, and more game servers.</p>
+                                        <span class="hosting-type-card-link">Get started
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 shrink-0 link-arrow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                </a>
+                                <!-- Cloud Hosting -->
+                                <a class="hosting-type-card" href="/hosting/setup/cloud" data-discover="true">
+                                    <span class="hosting-type-card-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"></path>
+                                        </svg>
+                                    </span>
+                                    <h3 class="hosting-type-card-title">Cloud Hosting</h3>
+                                    <p class="hosting-type-card-copy">Apps, APIs, Discord bots, and any custom backend stack.</p>
+                                    <span class="hosting-type-card-link">Get started
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 shrink-0 link-arrow">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Why Choose Us / Features -->
+                    <section class="py-[70px]">
+                        <div class="container mx-auto px-5 max-w-[1200px]">
+                            <div class="features-section-head">
+                                <p class="text-[#6cf2b2] font-semibold mb-2">Why choose us</p>
+                                <h2 class="text-[32px] font-bold mb-2.5">Built for performance and reliability</h2>
+                                <p class="text-[#cbd4ea] text-base leading-relaxed max-w-[800px]">Our game server hosting platform is engineered for maximum uptime and performance. We use enterprise-grade hardware and network infrastructure to ensure your gaming experience is always smooth and lag-free.</p>
+                            </div>
+                            <div class="features-grid">
+                                <!-- Feature 1: Blazing hardware -->
+                                <article class="feature-card feature-card-horizontal group">
+                                    <div class="icon-box w-10 h-10 feature-card-icon icon-box-hover">
+                                        <span class="flex items-center justify-center w-full h-full card-icon-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <h3 class="feature-card-title">Blazing hardware</h3>
+                                        <p class="feature-card-copy">High-clock CPUs paired with DDR5 ECC RAM and NVMe Gen4 disks deliver smooth, lag-free performance for your game servers. Our AMD EPYC processors ensure optimal gaming performance.</p>
+                                    </div>
+                                </article>
+                                <!-- Feature 2: Instant Setup -->
+                                <article class="feature-card feature-card-horizontal group">
+                                    <div class="icon-box w-10 h-10 feature-card-icon icon-box-hover">
+                                        <span class="flex items-center justify-center w-full h-full card-icon-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <h3 class="feature-card-title">Instant Setup</h3>
+                                        <p class="feature-card-copy">Deploy your server in seconds with our automated setup system.</p>
+                                    </div>
+                                </article>
+                                <!-- Feature 3: DDoS protection -->
+                                <article class="feature-card feature-card-horizontal group">
+                                    <div class="icon-box w-10 h-10 feature-card-icon icon-box-hover">
+                                        <span class="flex items-center justify-center w-full h-full card-icon-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <h3 class="feature-card-title">DDoS protection</h3>
+                                        <p class="feature-card-copy">Always-on mitigation keeps your servers online. Automatic filters block malicious traffic.</p>
+                                    </div>
+                                </article>
+                                <!-- Feature 4: Backups & Schedules -->
+                                <article class="feature-card feature-card-horizontal group">
+                                    <div class="icon-box w-10 h-10 feature-card-icon icon-box-hover">
+                                        <span class="flex items-center justify-center w-full h-full card-icon-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <h3 class="feature-card-title">Backups &amp; Schedules</h3>
+                                        <p class="feature-card-copy">Automated backups with easy restores. Schedule tasks and updates from your panel.</p>
+                                    </div>
+                                </article>
+                                <!-- Feature 5: File Manager -->
+                                <article class="feature-card feature-card-horizontal group">
+                                    <div class="icon-box w-10 h-10 feature-card-icon icon-box-hover">
+                                        <span class="flex items-center justify-center w-full h-full card-icon-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <h3 class="feature-card-title">File Manager</h3>
+                                        <p class="feature-card-copy">Drag-and-drop uploads in the browser, or connect via SFTP for advanced workflows.</p>
+                                    </div>
+                                </article>
+                                <!-- Feature 6: 24/7 human support -->
+                                <article class="feature-card feature-card-horizontal group">
+                                    <div class="icon-box w-10 h-10 feature-card-icon icon-box-hover">
+                                        <span class="flex items-center justify-center w-full h-full card-icon-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.712 4.33a9.027 9.027 0 0 1 1.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 0 0-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 0 1 0 9.424m-4.138-5.976a3.736 3.736 0 0 0-.88-1.388 3.737 3.737 0 0 0-1.388-.88m2.268 2.268a3.765 3.765 0 0 1 0 2.528m-2.268-4.796a3.765 3.765 0 0 0-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 0 1-1.388.88m2.268-2.268 4.138 3.448m0 0a9.027 9.027 0 0 1-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0-3.448-4.138m3.448 4.138a9.014 9.014 0 0 1-9.424 0m5.976-4.138a3.765 3.765 0 0 1-2.528 0m0 0a3.736 3.736 0 0 1-1.388-.88 3.737 3.737 0 0 1-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 0 1-1.652-1.306 9.027 9.027 0 0 1-1.306-1.652m0 0 4.138-3.448M4.33 16.712a9.014 9.014 0 0 1 0-9.424m4.138 5.976a3.765 3.765 0 0 1 0-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 0 1 1.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 0 0-1.652 1.306A9.025 9.025 0 0 0 4.33 7.288"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="feature-card-body">
+                                        <h3 class="feature-card-title">24/7 human support</h3>
+                                        <p class="feature-card-copy">Real people who know hosting. Average first reply in minutes, any time of day.</p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- CTA Section -->
+                    <section class="py-[70px]">
+                        <div class="container mx-auto px-5 max-w-[1200px]">
+                            <div class="enterprise-panel p-[18px] flex flex-col md:flex-row items-center justify-between gap-[18px]">
+                                <div>
+                                    <h2 class="text-[32px] font-bold m-0 mb-1.5">Ready to launch your server?</h2>
+                                    <p class="text-[#a6b0c3] m-0">Deploy in seconds with global locations, powerful hardware, and real people helping 24/7.</p>
+                                </div>
+                                <a class="px-4 py-2.5 rounded-xl font-bold text-[#0b0e13] bg-gradient-to-br from-[#6cf2b2] to-[#64b5ff] hover:-translate-y-0.5 transition-transform inline-flex items-center gap-2 whitespace-nowrap btn-shine" href="/hosting/setup/minecraft" data-discover="true">
+                                    Start Your Hosting
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 shrink-0 link-arrow">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="border-t border-white/[0.08] bg-white/[0.02]">
+                <div class="container mx-auto px-5 py-8 max-w-[1200px]">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-[18px]">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+                                    <img alt="Apsara Hosting" class="w-full h-full object-contain dark:hidden" src="/storage/logo-light.webp">
+                                    <img alt="Apsara Hosting" class="w-full h-full object-contain hidden dark:inline-block" src="/storage/logo-dark.webp">
+                                </div>
+                                <strong class="font-extrabold text-[#e6ecff]">Apsara Hosting</strong>
+                            </div>
+                            <p class="text-[#aeb8cf] text-sm leading-relaxed mb-5">The cheapest and most reliable hosting provider. Specializing in game servers with 24/7 support starting from $0.50/month.</p>
+                            <div class="space-y-2 mb-5">
+                                <div class="flex items-center gap-2 text-[#aeb8cf] text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 contact-icon text-[#6cf2b2] shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"></path>
+                                    </svg>
+                                    <span>Phnom Penh, Cambodia</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-[#aeb8cf] text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 contact-icon text-[#6cf2b2] shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"></path>
+                                    </svg>
+                                    <span>+855 12 345 678</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-[#aeb8cf] text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true" data-slot="icon" class="w-4 h-4 contact-icon text-[#6cf2b2] shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"></path>
+                                    </svg>
+                                    <span>support@apsara.host</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add footer links columns as needed -->
+                    </div>
+                </div>
+            </footer>
+
         </div>
-        
-        <button class="theme-toggle" onclick="toggleTheme()">
-          <i class="fas fa-moon" id="themeIcon"></i>
-        </button>
-        
-        <div class="cart-icon" onclick="showPage('cart')">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="cart-count" id="cartCount">0</span>
-        </div>
-        
-        <div class="profile-icon" onclick="toggleProfileDropdown()">
-          <i class="fas fa-user-circle"></i>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h3><i class="fas fa-code"></i> Menu</h3>
-      <button class="close-sidebar" onclick="toggleSidebar()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="sidebar-menu">
-      <li><a href="#" onclick="showPage('home'); toggleSidebar();"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="#" onclick="showPage('products'); toggleSidebar();"><i class="fas fa-box"></i> Products</a></li>
-      <li><a href="#" onclick="showPage('about'); toggleSidebar();"><i class="fas fa-info-circle"></i> About Us</a></li>
-      <li class="sidebar-divider"></li>
-      <li id="sidebarAuth">
-        <a href="#" onclick="showPage('login'); toggleSidebar();"><i class="fas fa-sign-in-alt"></i> Login</a>
-      </li>
-    </ul>
-  </aside>
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
-  <!-- PROFILE DROPDOWN -->
-  <div class="profile-dropdown" id="profileDropdown">
-    <div class="profile-dropdown-header">
-      <i class="fas fa-user-circle"></i>
-      <div>
-        <h4 id="profileName">Guest</h4>
-        <p id="profileEmail">Please login</p>
-      </div>
-    </div>
-    <ul class="profile-menu">
-      <li><a href="#" onclick="showPage('profile'); toggleProfileDropdown();"><i class="fas fa-user"></i> My Profile</a></li>
-      <li><a href="#" onclick="showPage('dashboard'); toggleProfileDropdown();"><i class="fas fa-box"></i> My Purchases</a></li>
-      <li><a href="#" onclick="showPage('cart'); toggleProfileDropdown();"><i class="fas fa-shopping-cart"></i> My Cart</a></li>
-      
-      <!-- SHARE LINK BUTTON -->
-      <li id="shareMenuItem" style="display:none;">
-        <a href="#" onclick="shareLink()" class="share-menu-item">
-          <i class="fas fa-share-alt"></i> Share & Earn
-          <span class="share-badge" id="shareBadge">+10%</span>
-        </a>
-      </li>
-      
-      <li class="profile-divider"></li>
-      <li id="profileAuth">
-        <a href="#" onclick="showPage('login'); toggleProfileDropdown();"><i class="fas fa-sign-in-alt"></i> Login / Register</a>
-      </li>
-    </ul>
-  </div>
-
-  <!-- HOME PAGE -->
-  <section id="home" class="page active">
-    <div class="hero">
-      <div class="hero-content">
-        <h1>Welcome to <span>AhnajakCode</span></h1>
-        <p> Script, Plugins, Templates and Digital Products</p>
-        <button class="btn-primary" onclick="showPage('products')">
-          <i class="fas fa-rocket"></i> Browse Products
-        </button>
-      </div>
     </div>
 
-    <div class="container">
-      <h2 class="section-title"> Featured Products</h2>
-      <div class="products-grid" id="featuredProducts"></div>
-    </div>
-    
-  </section>
+    <!-- JavaScript -->
+    <link rel="modulepreload" as="script" href="https://apsara.host/default/assets/main-B8Kt0bth.js">
+    <script type="module" src="https://apsara.host/default/assets/main-B8Kt0bth.js" data-navigate-track="reload"></script>
 
-  <!-- PRODUCTS PAGE -->
-  <section id="products" class="page">
-    <div class="container">
-      <h2 class="section-title">🛒 All Products</h2>
-      
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Search products..." oninput="searchProducts()" />
-      </div>
-      
-      <div class="filter-bar">
-        <button class="filter-btn active" data-cat="all">All</button>
-        <button class="filter-btn" data-cat="script">Scripts</button>
-        <button class="filter-btn" data-cat="plugin">Plugins</button>
-        <button class="filter-btn" data-cat="template">Templates</button>
-        <button class="filter-btn" data-cat="ui">UI Kits</button>
-      </div>
-      <div class="products-grid" id="allProducts"></div>
-    </div>
-  </section>
-
-  <!-- ABOUT PAGE -->
-  <section id="about" class="page">
-    <div class="container about-content">
-      <h2 class="section-title">About Us</h2>
-      <p>AhnajakCode គឺជាវេបសាយលក់ Digital Products ដែលផ្តល់ជូននូវ Script, Plugin, Template និង UI Kit គុណភាពខ្ពស់។</p>
-      <p>យើងប្តេជ្ញាផ្តល់នូវផលិតផលដែលមានគុណភាព, ងាយស្រួលប្រើ និងមានតម្លៃសមរម្យ។</p>
-      <div class="stats">
-        <div><h3>500+</h3><p>Products</p></div>
-        <div><h3>10K+</h3><p>Customers</p></div>
-        <div><h3>24/7</h3><p>Support</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOGIN PAGE -->
-  <section id="login" class="page">
-    <div class="auth-container">
-      <div class="auth-box">
-        <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-        <form id="loginForm">
-          <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="loginEmail" required placeholder="your@email.com" />
-          </div>
-          <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="loginPassword" required placeholder="••••••••" />
-          </div>
-          <button type="submit" class="btn-primary btn-full">Login</button>
-          <p class="auth-switch">
-            មិនទាន់មានគណនី? <a href="#" onclick="showPage('register')">Register</a>
-          </p>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- REGISTER PAGE -->
-  <section id="register" class="page">
-    <div class="auth-container">
-      <div class="auth-box">
-        <h2><i class="fas fa-user-plus"></i> Register</h2>
-        <form id="registerForm">
-          <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" id="regName" required placeholder="John Doe" />
-          </div>
-          <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="regEmail" required placeholder="your@email.com" />
-          </div>
-          <div class="input-group">
-            <label>Phone Number</label>
-            <input type="tel" id="regPhone" placeholder="+855 12 345 6789" />
-          </div>
-          <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="regPassword" required minlength="6" placeholder="At least 6 characters" />
-          </div>
-          <button type="submit" class="btn-primary btn-full">Create Account</button>
-          <p class="auth-switch">
-            មានគណនីរួចហើយ? <a href="#" onclick="showPage('login')">Login</a>
-          </p>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROFILE PAGE -->
-  <section id="profile" class="page">
-    <div class="container">
-      <h2 class="section-title"><i class="fas fa-user-circle"></i> My Profile</h2>
-      <div class="profile-container">
-        <div class="profile-avatar">
-          <i class="fas fa-user-circle"></i>
-        </div>
-        <form id="profileForm">
-          <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" id="profileNameInput" required />
-          </div>
-          <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="profileEmailInput" required />
-          </div>
-          <div class="input-group">
-            <label>Phone Number</label>
-            <input type="tel" id="profilePhoneInput" />
-          </div>
-          <button type="submit" class="btn-primary btn-full">
-            <i class="fas fa-save"></i> Save Changes
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- CART PAGE -->
-  <section id="cart" class="page">
-    <div class="container">
-      <h2 class="section-title">🛍️ Your Cart</h2>
-      
-      <div class="coupon-section">
-        <input type="text" id="couponInput" placeholder="Enter coupon code" />
-        <button class="btn-small" onclick="applyCoupon()">Apply</button>
-      </div>
-      
-      <div id="cartItems"></div>
-      <div class="cart-summary" id="cartSummary" style="display:none;">
-        <div class="summary-row">
-          <span>Subtotal:</span>
-          <span id="cartSubtotal">$0.00</span>
-        </div>
-        <div class="summary-row discount-row" id="discountRow" style="display:none;">
-          <span>Discount:</span>
-          <span id="cartDiscount" class="discount-amount">-$0.00</span>
-        </div>
-        <div class="summary-row">
-          <span>Total:</span>
-          <span class="total-price" id="cartTotal">$0.00</span>
-        </div>
-        <button class="btn-primary btn-full" onclick="checkout()">
-          <i class="fas fa-credit-card"></i> Checkout Now
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- DASHBOARD PAGE -->
-  <section id="dashboard" class="page">
-    <div class="container">
-      <div class="dashboard-header">
-        <h2>Welcome, <span id="userName"></span> 👋</h2>
-        <button class="btn-danger" onclick="logout()">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-      </div>
-      
-      <h3 class="section-title">📦 My Purchases</h3>
-      <div class="products-grid" id="myPurchases"></div>
-    </div>
-  </section>
-
-  <!-- SUCCESS MODAL -->
-  <div class="success-modal" id="successModal">
-    <div class="success-content">
-      <div class="success-icon">
-        <i class="fas fa-check-circle"></i>
-      </div>
-      <h2>Payment Successful!</h2>
-      <p>អរគុណសម្រាប់ការទិញ។ ផលិតផលរបស់អ្នកអាចទាញយកបានឥឡូវនេះ។</p>
-      <div class="success-details" id="successDetails"></div>
-      <button class="btn-primary" onclick="closeSuccessModal()">
-        <i class="fas fa-download"></i> Download Now
-      </button>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2026 AhnajakCode. All rights reserved. Made with ❤️ in Cambodia</p>
-      <p><a href="admin">Admin Panel</a></p>
-    </div>
-  </footer>
-
-  <div id="toast" class="toast"></div>
-  <script src="script.js"></script>
 </body>
-            </html>
+</html>
